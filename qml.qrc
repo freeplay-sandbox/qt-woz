@@ -30,5 +30,7 @@
         <file>res/rocket.svg</file>
         <file>res/alternate_rocket.svg</file>
         <file>res/tags/markers.svg</file>
+        <file>DraggableObject.qml</file>
+        <file>ListenerObject.qml</file>
     </qresource>
 </RCC>
