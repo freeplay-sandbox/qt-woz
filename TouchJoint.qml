@@ -1,16 +1,14 @@
 import QtQuick 2.0
 
-import Box2D 2.0
-
 TouchPoint {
 
     property var touchedItem: null
 
-    property MouseJoint joint: MouseJoint {
-    bodyA: anchor
-    dampingRatio: 1
-    maxForce: 1
-    }
+//    property MouseJoint joint: MouseJoint {
+//    bodyA: anchor
+//    dampingRatio: 1
+//    maxForce: 1
+//    }
 
     onXChanged: {
         joint.target = Qt.point(x, y);
@@ -26,7 +24,7 @@ TouchPoint {
             // find out whether we touched an item
             var obj = zoo.childAt(x, y);
             if (obj.objectName === "interactive") {
-                joint.maxForce = obj.body.getMass() * 500;
+                //joint.maxForce = obj.body.getMass() * 500;
                 joint.target = Qt.point(x, y);
                 joint.bodyB = obj.body;
             }

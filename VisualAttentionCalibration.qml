@@ -13,12 +13,12 @@ Item {
         visualtarget_animation.start();
         rocket_color_animation.start();
     }
-
+/*
     RosSignal {
         id: calibratingvisualfocus
         topic: "visualfocus_calibration"
     }
-
+*/
     Item {
         id: visualtarget
         width:parent.width * 0.05
@@ -51,7 +51,7 @@ Item {
                 id: imageOrigin
                 x: parent.x + parent.width / 2
                 y: parent.y + parent.height / 2
-
+/*
                 TFBroadcaster {
                     id: targetTFbroadcaster
                     active: visualtracking.visible

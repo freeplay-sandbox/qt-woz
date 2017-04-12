@@ -1,7 +1,6 @@
 import QtQuick 2.0
-import Box2D 2.0
 
-Cube {
+Object {
     id: character
 
 
@@ -13,17 +12,4 @@ Cube {
     rotation: -30 + Math.random() * 60
 
     width: scale * 2 * parent.height * zoo.physicalCubeSize / zoo.physicalMapWidth
-
-
-    boundingbox:  Circle {
-        id: circleShape
-        radius: bbScale * character.width/2
-        x: character.width/2 - radius
-        y: character.height/2 - radius
-        density: 1
-        friction: 1
-        restitution: 0.1
-    }
-
-
 }

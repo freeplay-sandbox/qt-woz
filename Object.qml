@@ -1,10 +1,9 @@
 import QtQuick 2.2
-import Box2D 2.0
 
 import Ros 1.0
 
 Item {
-        id:cube
+        id:object
         width: 2*parent.height * zoo.physicalCubeSize / zoo.physicalMapWidth
         height: width
 
@@ -13,21 +12,6 @@ Item {
         property string name: ""
         property string image: "res/cube.svg"
 
-        property var boundingbox:
-            Polygon {
-                id:bbpoly
-                vertices: [
-                    Qt.point(origin.x, origin.y),
-                    Qt.point(origin.x + image.sourceSize.width * bbratio, origin.y),
-                    Qt.point(origin.x + image.sourceSize.width * bbratio, origin.y + image.sourceSize.height * bbratio),
-                    Qt.point(origin.x, origin.y + image.sourceSize.height * bbratio),
-                ]
-                density: 1
-                friction: 1
-                restitution: 0.1
-            }
-
-        property alias body: cubeBody
         property double bbratio: 1 // set later (cf below) once paintedWidth is known
         property alias origin: imageOrigin
 
@@ -49,20 +33,6 @@ Item {
                 bbratio= image.paintedWidth/image.sourceSize.width;
             }
 
-        }
-        Body {
-                id: cubeBody
-
-                target: cube
-                world: physicsWorld
-                bodyType: Body.Dynamic
-
-                Component.onCompleted: {
-                    cubeBody.addFixture(cube.boundingbox);
-                }
-
-                angularDamping: 5
-                linearDamping: 5
         }
 
 //   PinchArea {
@@ -94,6 +64,8 @@ Item {
             parentframe: mapOrigin.name
             pixelscale: zoo.pixel2meter
             onPositionChanged:{
+
+                console.log("width" + parent.parent.width);
                 parent.parent.x= x - parent.parent.width/2
                 parent.parent.y= y - parent.parent.height/2
                 parent.parent.rotation= rotation
