@@ -73,28 +73,7 @@ Window {
             onPaintedGeometryChanged: mapPublisher.publish();
             */
         }
-/*
-        MouseJoint {
-            id: externalJoint
-            bodyA: anchor
-            dampingRatio: 1
-            maxForce: 1
-        }
 
-        MultiPointTouchArea {
-            id: mouseArea
-            anchors.fill: parent
-
-            touchPoints: [
-                TouchJoint {},
-                TouchJoint {},
-                TouchJoint {},
-                TouchJoint {},
-                TouchJoint {},
-                TouchJoint {}
-            ]
-        }
-*/
         Item {
             id:robot
             z:100
@@ -108,11 +87,6 @@ Window {
 
                 Drag.active: robotDragArea.drag.active
 
-                MouseArea {
-                    id: robotDragArea
-                    anchors.fill: parent
-                    drag.target: robot
-                }
                 visible:zoo.publishRobotChild
             }
 /*
@@ -297,30 +271,18 @@ Window {
 
             topic: "poses"
 
-            Image {
+            Rectangle {
                 id:robot_hand
-                source: "res/nao_hand.svg"
-                y: - 10
-                x: - 30
-                width: 120
-                fillMode: Image.PreserveAspectFit
+                width: 25
+                height: 25
+                color: "red"
                 // tracks the position of the robot
-                transform: Rotation {origin.x: 15;origin.y: 5;angle: 180/Math.PI * (-Math.PI/2 + Math.atan2(robotArmReach.y-rostouch.y, robotArmReach.x-rostouch.x))}
                 visible: false
 
             }
-            //Rectangle {
-            //    anchors.centerIn: parent
-            //    width: 5
-            //    height: width
-            //    radius: width/2
-            //    color: "red"
-            //    z:1
-            //}
 
             z:100
             property var target: null
-            property string draggedObject: ""
             origin: mapOrigin
             pixelscale: zoo.pixel2meter
 
@@ -330,25 +292,7 @@ Window {
                 if(!zoo.visible) return;
 
                 robot_hand.visible=true;
-
-                if (target === null) {
-                    var obj = zoo.childAt(x, y);
-                    if (obj.objectName === "interactive") {
-                        draggedObject = obj.name;
-                        console.log("ROS controller touched object: " + obj.name);
-
-                        target = obj.body
-
-                        externalJoint.maxForce = target.getMass() * 500;
-                        externalJoint.target = Qt.point(x,y);
-                        externalJoint.bodyB = target;
-                    }
-
-                }
-                if (target != null) {
-                    externalJoint.target = Qt.point(x, y);
-                    releasetimer.restart();
-                }
+                releasetimer.restart();
             }
 
             Timer {
@@ -356,10 +300,6 @@ Window {
                 interval: 1000
                 running: false
                 onTriggered: {
-                    console.log("Auto-releasing ROS contact with " + parent.draggedObject);
-                    parent.draggedObject = "";
-                    parent.target = null;
-                    externalJoint.bodyB = null;
                     robot_hand.visible=false;
                 }
             }
