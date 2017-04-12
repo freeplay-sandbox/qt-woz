@@ -5,7 +5,7 @@
 
 int main(int argc, char *argv[])
 {
-    ros::init(argc, argv,"sandtray");
+    ros::init(argc, argv,"sandtrayGui");
 
     QGuiApplication app(argc, argv);
 

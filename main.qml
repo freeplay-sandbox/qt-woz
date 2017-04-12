@@ -62,7 +62,8 @@ Window {
                 x: map.x + (map.width - map.paintedWidth)/2
                 y: map.y + (map.height - map.paintedHeight)/2
             }
-
+            //Should be replaced by an ImageListener
+            /*
             ImagePublisher {
                 id: mapPublisher
                 target: parent
@@ -72,6 +73,7 @@ Window {
             }
 
             onPaintedGeometryChanged: mapPublisher.publish();
+            */
         }
 
         MouseJoint {
@@ -115,7 +117,7 @@ Window {
                 }
                 visible:zoo.publishRobotChild
             }
-
+/*
             TFBroadcaster {
                 active: zoo.publishRobotChild
                 target: parent
@@ -130,11 +132,11 @@ Window {
                 pixelscale: zoo.pixel2meter
             }
 
-
+*/
 
 
         }
-        TFListener {
+/*        TFListener {
             id: robotArmReach
             x: window.width/2
             y: window.height/2
@@ -162,7 +164,7 @@ Window {
                 radius: width/2
                 color: "#55FFAA44"
             }
-        }
+        }*/
         Item {
             id: robotFocus
             x: window.width/2
@@ -185,7 +187,7 @@ Window {
                 }
 
                 visible: zoo.showRobotChild
-
+/*
                 TFBroadcaster {
                     active: parent.visible
                     target: parent
@@ -196,6 +198,7 @@ Window {
 
                     pixelscale: zoo.pixel2meter
                 }
+                   */
             }
         }
 
@@ -223,7 +226,7 @@ Window {
 
             }
         }
-
+/*
         RosPose {
             id: gazeFocus
             x: window.width/2
@@ -252,7 +255,7 @@ Window {
                 border.color: "orange"
             }
         }
-
+*/
         Item {
             id:child
             z:100
@@ -273,7 +276,7 @@ Window {
                 }
                 visible: zoo.publishRobotChild
             }
-
+/*
             TFBroadcaster {
                 active: zoo.publishRobotChild
                 target: parent
@@ -285,12 +288,12 @@ Window {
                 pixelscale: zoo.pixel2meter
             }
 
-
+*/
             x: window.width/2 - childImg.width /2
             y: window.height - childImg.height
         }
 
-        RosPose {
+ /*       RosPose {
             id: rostouch
 
             x: childFocus.x
@@ -366,7 +369,7 @@ Window {
             }
 
         }
-
+*/
         World {
             id: physicsWorld
             gravity: Qt.point(0.0, 0.0);
@@ -631,7 +634,7 @@ Window {
         }
 
 
-
+/*
         FootprintsPublisher {
             id:footprints
             pixelscale: zoo.pixel2meter
@@ -655,8 +658,8 @@ Window {
             return targets;
 
         }
+*/
     }
-
 
     Item {
         id: debugToolbar
@@ -853,11 +856,12 @@ Window {
             }
 
         }
-
+/*
         RosSignal {
             id: localising
             topic: "sandtray_localising"
         }
+        */
     }
 
     MouseArea {

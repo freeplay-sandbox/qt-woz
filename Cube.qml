@@ -7,7 +7,6 @@ Item {
         id:cube
         width: 2*parent.height * zoo.physicalCubeSize / zoo.physicalMapWidth
         height: width
-        rotation: Math.random() * 360
 
         objectName: "interactive"
 
@@ -86,14 +85,19 @@ Item {
         id: objectCenter
         anchors.centerIn: parent
         rotation: parent.rotation
-        TFBroadcaster {
-            target: parent
+        x: parent.x
+        y: parent.y
+        TFListener {
+            id:tf
             frame: parent.parent.name
-
             origin: mapOrigin
             parentframe: mapOrigin.name
-
             pixelscale: zoo.pixel2meter
+            onPositionChanged:{
+                parent.parent.x= x - parent.parent.width/2
+                parent.parent.y= y - parent.parent.height/2
+                parent.parent.rotation= rotation
+            }
         }
     }
 
