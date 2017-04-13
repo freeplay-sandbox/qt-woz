@@ -198,7 +198,7 @@ Window {
             }
         }
 
-        RosPose {
+        RosPoseSubscriber {
             id: gazeFocus
             x: window.width/2
             y: window.height/2
@@ -263,7 +263,7 @@ Window {
             y: window.height - childImg.height
         }
 
-        RosPose {
+        RosPoseSubscriber {
             id: rostouch
 
             x: childFocus.x
