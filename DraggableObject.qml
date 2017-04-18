@@ -14,13 +14,4 @@ Object {
                 publisher.publish()
             }
         }
-        RosPosePublisher {
-            id: publisher
-            pixelscale: zoo.pixel2meter
-
-            target: parent
-            frame: parent.name
-            origin: mapOrigin.name
-
-        }
 }

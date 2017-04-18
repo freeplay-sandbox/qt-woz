@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import Ros 1.0
 
 Item {
     id: character
@@ -35,9 +36,19 @@ Item {
         id: dragger
         name: parent.name
         image: parent.image
+        //origin: listener
         property double scale: 1.0
         property double bbScale: 1.0
         width: parent.width
+    }
+
+    RosPosePublisher {
+        id: publisher
+        pixelscale: zoo.pixel2meter
+        target: dragger
+        frame: parent.name
+        origin: listener
+
     }
 
     function testDifference(){
