@@ -296,11 +296,11 @@ Window {
             }
         }
 
-        RosSignal {
+        RosStringSubscriber {
             id: releasing
-            topic: "release_touch"
-            onReceivedChanged: {
-                releaseRobot();
+            topic: "releasing"
+            onMessageChanged: {
+                releaseRobot(message);
             }
         }
 
@@ -314,90 +314,65 @@ Window {
 
         }
 
-        Character {
-            id: zebra
-            name: "zebra"
-            image: "res/sprite-zebra.png"
-        }
-        Character {
-            id: elephant
-            name: "elephant"
-            scale: 1.5
-            image: "res/sprite-elephant.png"
-        }
-        Character {
-            id: giraffe
-            name: "giraffe"
-            scale: 1.5
-            image: "res/sprite-giraffe.png"
-        }
-        Character {
-            id: hippo
-            name: "hippo"
-            scale: 1.5
-            image: "res/sprite-hippo.png"
-        }
-        Character {
-            id: lion
-            name: "lion"
-            image: "res/sprite-lion.png"
-        }
-        Character {
-            id: crocodile
-            name: "crocodile"
-            image: "res/sprite-crocodile.png"
-        }
-        Character {
-            id: rhino
-            name: "rhino"
-            scale: 1.5
-            image: "res/sprite-rhino.png"
-        }
-        Character {
-            id: leopard
-            name: "leopard"
-            image: "res/sprite-leopard.png"
-        }
-
-        Character {
-            id: toychild1
-            name: "toychild1"
-            scale:0.75
-            image: "res/child_1.png"
-        }
-        Character {
-            id: toychild4
-            name: "toychild4"
-            scale:0.7
-            image: "res/child_4.png"
-        }
-
-
-/*
-        FootprintsPublisher {
-            id:footprints
-            pixelscale: zoo.pixel2meter
-
-            // wait a bit before publishing the footprints to leave Box2D the time to settle
-            Timer {
-                interval: 1000; running: true; repeat: false
-                onTriggered: parent.targets=zoo.getActiveItems()
+        Item {
+            id: characters
+            Character {
+                id: zebra
+                name: "zebra"
+                image: "res/sprite-zebra.png"
+            }
+            Character {
+                id: elephant
+                name: "elephant"
+                scale: 1.5
+                image: "res/sprite-elephant.png"
+            }
+            Character {
+                id: giraffe
+                name: "giraffe"
+                scale: 1.5
+                image: "res/sprite-giraffe.png"
+            }
+            Character {
+                id: hippo
+                name: "hippo"
+                scale: 1.5
+                image: "res/sprite-hippo.png"
+            }
+            Character {
+                id: lion
+                name: "lion"
+                image: "res/sprite-lion.png"
+            }
+            Character {
+                id: crocodile
+                name: "crocodile"
+                image: "res/sprite-crocodile.png"
+            }
+            Character {
+                id: rhino
+                name: "rhino"
+                scale: 1.5
+                image: "res/sprite-rhino.png"
+            }
+            Character {
+                id: leopard
+                name: "leopard"
+                image: "res/sprite-leopard.png"
+            }
+            Character {
+                id: toychild1
+                name: "toychild1"
+                scale:0.75
+                image: "res/child_1.png"
+            }
+            Character {
+                id: toychild4
+                name: "toychild4"
+                scale:0.7
+                image: "res/child_4.png"
             }
         }
-
-        function getActiveItems() {
-            var targets= [zebra,elephant,leopard,lion,giraffe,rhino,crocodile,hippo,toychild1, toychild4];
-            for (var childIdx=0; childIdx < zoo.children.length; childIdx++) {
-                var child = zoo.children[childIdx];
-                if("name" in child)
-                    if (child.name.substr(0,5) === "cube_") {
-                        targets.push(child);
-                    }
-            }
-            return targets;
-
-        }
-*/
     }
 
     Item {
@@ -617,8 +592,12 @@ Window {
         }
     }
 
-    function releaseRobot(){
-        robot_hand.visible = false;
+    function releaseRobot(item){
+        robot_hand.visible = false
+        for (var i = 0; i < characters.children.length; i++)
+            if(characters.children[i].name === item){
+                characters.children[i].resetGhost()
+            }
     }
 
 }

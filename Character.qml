@@ -5,14 +5,14 @@ Item {
     id: character
     property double scale: 1.0
     property double bbScale: 1.0
-    width: scale * 2 * parent.height * zoo.physicalCubeSize / zoo.physicalMapWidth
+    width: scale * 2 * parent.parent.height * zoo.physicalCubeSize / zoo.physicalMapWidth
     x: 0
     y: 0
     rotation: 0
 
     property string name: ""
     property string image: "res/cube.svg"
-    property int epsilon: 10
+    property int epsilon: 20
 
     ListenerObject {
         id: listener
@@ -48,7 +48,12 @@ Item {
         target: dragger
         frame: parent.name
         origin: listener
+        topic: "goal"
+    }
 
+    function resetGhost(){
+        dragger.dragged = false
+        testDifference()
     }
 
     function testDifference(){
