@@ -85,7 +85,7 @@ Window {
                 width: 100
                 fillMode: Image.PreserveAspectFit
 
-                Drag.active: robotDragArea.drag.active
+               //Drag.active: robotDragArea.drag.active
 
                 visible:zoo.publishRobotChild
             }
@@ -273,8 +273,9 @@ Window {
 
             Rectangle {
                 id:robot_hand
-                width: 25
-                height: 25
+                width: 20
+                height: 20
+                radius: 10
                 color: "red"
                 // tracks the position of the robot
                 visible: false
@@ -292,18 +293,15 @@ Window {
                 if(!zoo.visible) return;
 
                 robot_hand.visible=true;
-                releasetimer.restart();
             }
+        }
 
-            Timer {
-                id: releasetimer
-                interval: 1000
-                running: false
-                onTriggered: {
-                    robot_hand.visible=false;
-                }
+        RosSignal {
+            id: releasing
+            topic: "release_touch"
+            onReceivedChanged: {
+                releaseRobot();
             }
-
         }
 
         Repeater {
@@ -617,6 +615,10 @@ Window {
             }
 
         }
+    }
+
+    function releaseRobot(){
+        robot_hand.visible = false;
     }
 
 }
