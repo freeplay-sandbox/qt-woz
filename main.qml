@@ -316,73 +316,18 @@ Window {
             }
         }
 
-        Repeater {
-            model: zoo.nbCubes
-            Object {
-                name: "cube_" + index
-                x: 0.1 * parent.width + Math.random() * 0.8 * parent.width
-                y: 0.1 * parent.height + Math.random() * 0.8 * parent.height
-            }
-
-        }
-
         Item {
             id: characters
-            Character {
-                id: zebra
-                name: "zebra"
-                image: "res/sprite-zebra.png"
-            }
-            Character {
-                id: elephant
-                name: "elephant"
-                scale: 1.5
-                image: "res/sprite-elephant.png"
-            }
-            Character {
-                id: giraffe
-                name: "giraffe"
-                scale: 1.5
-                image: "res/sprite-giraffe.png"
-            }
-            Character {
-                id: hippo
-                name: "hippo"
-                scale: 1.5
-                image: "res/sprite-hippo.png"
-            }
-            Character {
-                id: lion
-                name: "lion"
-                image: "res/sprite-lion.png"
-            }
-            Character {
-                id: crocodile
-                name: "crocodile"
-                image: "res/sprite-crocodile.png"
-            }
-            Character {
-                id: rhino
-                name: "rhino"
-                scale: 1.5
-                image: "res/sprite-rhino.png"
-            }
-            Character {
-                id: leopard
-                name: "leopard"
-                image: "res/sprite-leopard.png"
-            }
-            Character {
-                id: toychild1
-                name: "toychild1"
-                scale:0.75
-                image: "res/child_1.png"
-            }
-            Character {
-                id: toychild4
-                name: "toychild4"
-                scale:0.7
-                image: "res/child_4.png"
+        }
+
+        TFListener {
+            id: frameManager
+        }
+        Timer {
+            id: populate
+            interval: 1000; running: true; repeat: false
+            onTriggered: {
+                checkFrames();
             }
         }
     }
