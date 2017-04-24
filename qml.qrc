@@ -1,36 +1,36 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>res/map.svg</file>
         <file>main.cpp</file>
         <file>Object.qml</file>
-        <file>res/cube.svg</file>
-        <file>res/sprite-crocodile.png</file>
-        <file>res/sprite-elephant.png</file>
-        <file>res/sprite-giraffe.png</file>
-        <file>res/sprite-hippo.png</file>
-        <file>res/sprite-leopard.png</file>
-        <file>res/sprite-lion.png</file>
-        <file>res/sprite-rhino.png</file>
-        <file>res/sprite-zebra.png</file>
         <file>Character.qml</file>
         <file>res/nao_hand.svg</file>
         <file>res/nao_head.svg</file>
-        <file>res/child_head.svg</file>
-        <file>res/child_1.svg</file>
-        <file>res/child_2.svg</file>
-        <file>res/child_3.svg</file>
-        <file>res/child_4.svg</file>
-        <file>res/child_5.svg</file>
-        <file>res/child_4.png</file>
-        <file>res/child_5.png</file>
-        <file>res/child_1.png</file>
         <file>TouchJoint.qml</file>
         <file>VisualAttentionCalibration.qml</file>
-        <file>res/rocket.svg</file>
-        <file>res/alternate_rocket.svg</file>
         <file>res/tags/markers.svg</file>
         <file>DraggableObject.qml</file>
         <file>ListenerObject.qml</file>
+        <file>res/toychild1.svg</file>
+        <file>res/alternate_rocket.svg</file>
+        <file>res/child_head.svg</file>
+        <file>res/crocodile.png</file>
+        <file>res/cube.svg</file>
+        <file>res/elephant.png</file>
+        <file>res/giraffe.png</file>
+        <file>res/hippo.png</file>
+        <file>res/leopard.png</file>
+        <file>res/lion.png</file>
+        <file>res/map.svg</file>
+        <file>res/rhino.png</file>
+        <file>res/rocket.svg</file>
+        <file>res/toychild1.png</file>
+        <file>res/toychild2.svg</file>
+        <file>res/toychild3.svg</file>
+        <file>res/toychild4.png</file>
+        <file>res/toychild4.svg</file>
+        <file>res/toychild5.png</file>
+        <file>res/toychild5.svg</file>
+        <file>res/zebra.png</file>
     </qresource>
 </RCC>
