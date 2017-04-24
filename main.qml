@@ -49,7 +49,19 @@ Window {
             id: map
             fillMode: Image.PreserveAspectFit
             anchors.fill: parent
-            source: "res/map.svg"
+            source: "image://rosimage/sandbox/image"
+            cache: false
+            Timer {
+                id: imageLoder
+                interval: 1000
+                repeat: true
+                running: true
+                onTriggered: {
+                    map.source = "";
+                    map.source = "image://rosimage/sandbox/image";
+                    interval = 5000
+                }
+            }
 
             Item {
                 // this item sticks to the 'visual' origin of the map, taking into account
