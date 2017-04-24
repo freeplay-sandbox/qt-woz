@@ -6,8 +6,6 @@
         <file>Character.qml</file>
         <file>res/nao_hand.svg</file>
         <file>res/nao_head.svg</file>
-        <file>TouchJoint.qml</file>
-        <file>VisualAttentionCalibration.qml</file>
         <file>res/tags/markers.svg</file>
         <file>DraggableObject.qml</file>
         <file>ListenerObject.qml</file>

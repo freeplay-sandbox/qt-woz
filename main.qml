@@ -19,13 +19,10 @@ Window {
     property int prevHeight:600
 
     onWidthChanged: {
-        robot.x = robot.x * width/prevWidth;
         prevWidth=width;
     }
     onHeightChanged: {
-        robot.y = robot.y * height/prevHeight;
         prevHeight=height;
-
     }
 
     color: "black"
@@ -41,7 +38,6 @@ Window {
         property double physicalCubeSize: 30 //mm
         property double pixel2meter: (physicalMapWidth / 1000) / map.paintedWidth
 
-        property int nbCubes: 0
         property bool showRobotChild: false
         property bool publishRobotChild: false
 
@@ -72,54 +68,8 @@ Window {
                 x: map.x + (map.width - map.paintedWidth)/2
                 y: map.y + (map.height - map.paintedHeight)/2
             }
-            //Should be replaced by an ImageListener
-            /*
-            ImagePublisher {
-                id: mapPublisher
-                target: parent
-                topic: "/sandbox/image"
-                frame: mapOrigin.name
-                pixelscale: zoo.pixel2meter
-            }
-
-            onPaintedGeometryChanged: mapPublisher.publish();
-            */
         }
 
-        Item {
-            id:robot
-            z:100
-            rotation: 90+180/Math.PI * (-Math.PI/2 + Math.atan2(-robot.y+robotFocus.y, -robot.x+robotFocus.x))
-            Image {
-                id: robotImg
-                source: "res/nao_head.svg"
-                anchors.centerIn: parent
-                width: 100
-                fillMode: Image.PreserveAspectFit
-
-               //Drag.active: robotDragArea.drag.active
-
-                visible:zoo.publishRobotChild
-            }
-/*
-            TFBroadcaster {
-                active: zoo.publishRobotChild
-                target: parent
-                frame: "odom"
-
-                origin: mapOrigin
-                parentframe: mapOrigin.name
-
-                //zoffset: -0.15 // on boxes, next to sandtray
-                zoffset: -0.25 // on the ground, next to sandtray
-
-                pixelscale: zoo.pixel2meter
-            }
-
-*/
-
-
-        }
         TFListener {
             id: robotArmReach
             x: window.width/2
@@ -149,6 +99,7 @@ Window {
                 color: "#55FFAA44"
             }
         }
+
         Item {
             id: robotFocus
             x: window.width/2
@@ -238,46 +189,9 @@ Window {
                 border.color: "orange"
             }
         }
-        Item {
-            id:child
-            z:100
-            rotation: 90+180/Math.PI * (-Math.PI/2 + Math.atan2(-child.y+childFocus.y, -child.x+childFocus.x))
-            Image {
-                id: childImg
-                source: "res/child_head.svg"
-                anchors.centerIn: parent
-                width: 100
-                fillMode: Image.PreserveAspectFit
-
-                Drag.active: childDragArea.drag.active
-
-                MouseArea {
-                    id: childDragArea
-                    anchors.fill: parent
-                    drag.target: child
-                }
-                visible: zoo.publishRobotChild
-            }
-/*
-            TFBroadcaster {
-                active: zoo.publishRobotChild
-                target: parent
-                frame: "child"
-
-                origin: mapOrigin
-                parentframe: mapOrigin.name
-
-                pixelscale: zoo.pixel2meter
-            }
-
-*/
-            x: window.width/2 - childImg.width /2
-            y: window.height - childImg.height
-        }
 
         RosPoseSubscriber {
             id: rostouch
-
             x: childFocus.x
             y: childFocus.y
 
@@ -291,7 +205,6 @@ Window {
                 color: "red"
                 // tracks the position of the robot
                 visible: false
-
             }
 
             z:100
@@ -300,10 +213,8 @@ Window {
             pixelscale: zoo.pixel2meter
 
             onPositionChanged: {
-
                 // the playground is hidden, nothing to do
                 if(!zoo.visible) return;
-
                 robot_hand.visible=true;
             }
         }
@@ -323,6 +234,7 @@ Window {
         TFListener {
             id: frameManager
         }
+
         Timer {
             id: populate
             interval: 1000; running: true; repeat: false
@@ -330,189 +242,6 @@ Window {
                 checkFrames();
             }
         }
-    }
-
-    Item {
-        id: debugToolbar
-        x:0
-        y:0
-        visible:false
-
-        Rectangle {
-            id: fullscreenButton
-            x: 50
-            y: 50
-            width: 180
-            height: 30
-            Text {
-                text:  "Toggle fullscreen"
-                anchors.centerIn: parent
-            }
-            color: "#DEDEDE"
-            border.color: "#999"
-            radius: 5
-            MouseArea {
-                anchors.fill: parent
-                onClicked: (window.visibility === Window.FullScreen) ? window.visibility = Window.Windowed : window.visibility = Window.FullScreen;
-            }
-        }
-
-        Rectangle {
-            id: visualAttentionButton
-            x: 250
-            y: 50
-            width: 250
-            height: 30
-            Text {
-                text:  "Start visual target tracking"
-                anchors.centerIn: parent
-            }
-            color: "#DEDEDE"
-            border.color: "#999"
-            radius: 5
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    zoo.visible = false;
-                    debugToolbar.visible = false;
-                    visualtracking.visible = true;
-                    visualtracking.start();
-                }
-            }
-        }
-        Rectangle {
-            id: debugButton
-            x: 50
-            y: 100
-            width: 180
-            height: 30
-            Text {
-                //text: debugDraw.visible ? "Physics debug: on" : "Physics debug: off"
-                anchors.centerIn: parent
-            }
-            color: "#DEDEDE"
-            border.color: "#999"
-            radius: 5
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    debugDraw.visible = !debugDraw.visible;
-                }
-            }
-        }
-        Rectangle {
-            id: robotButton
-            x: 50
-            y: 150
-            width: 180
-            height: 30
-            Text {
-                text: zoo.showRobotChild ? "Hide robot/child" : "Control robot/child"
-                anchors.centerIn: parent
-            }
-            color: "#DEDEDE"
-            border.color: "#999"
-            radius: 5
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    zoo.showRobotChild = !zoo.showRobotChild;
-                    if (zoo.showRobotChild) {
-                        robot.x=window.width - robotImg.width;
-                        robot.y=window.height / 2 - robotImg.height / 2;
-                    }
-                }
-            }
-        }
-        Rectangle {
-            id: robotPublisherButton
-            x: 50
-            y: 200
-            width: 180
-            height: 30
-            Text {
-                text: zoo.publishRobotChild ? "Stop publishing robot/child frames" : "Publish robot/child frames"
-                anchors.centerIn: parent
-            }
-            color: "#DEDEDE"
-            border.color: "#999"
-            radius: 5
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {zoo.publishRobotChild = !zoo.publishRobotChild;}
-            }
-        }
-        Rectangle {
-            id: gazeButton
-            x: 50
-            y: 250
-            width: 180
-            height: 30
-            Text {
-                text: gazeFocus.visible ? "Hide gaze" : "Show gaze"
-                anchors.centerIn: parent
-            }
-            color: "#DEDEDE"
-            border.color: "#999"
-            radius: 5
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    gazeFocus.visible = !gazeFocus.visible;
-                }
-            }
-        }
-    }
-
-
-    VisualAttentionCalibration {
-        id: visualtracking
-        visible: false
-    }
-
-    MouseArea {
-        width:30
-        height:width
-        z: 100
-
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-
-        //Rectangle {
-        //    anchors.fill: parent
-        //    color: "red"
-        //}
-
-        property int clicks: 0
-
-        onClicked: {
-            clicks += 1;
-            if (clicks === 3) {
-                localising.signal();
-                zoo.visible = false;
-                window.color = "white";
-                fiducialmarker.visible = true;
-                clicks = 0;
-                restore.start();
-            }
-        }
-
-        Timer {
-            id: restore
-            interval: 5000; running: false; repeat: false
-            onTriggered: {
-                fiducialmarker.visible = false;
-                window.color = "black"
-                zoo.visible = true;
-            }
-
-        }
-/*
-        RosSignal {
-            id: localising
-            topic: "sandtray_localising"
-        }
-        */
     }
 
     MouseArea {

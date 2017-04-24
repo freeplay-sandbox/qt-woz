@@ -1,5 +1,4 @@
 import QtQuick 2.2
-
 import Ros 1.0
 
 Object {
