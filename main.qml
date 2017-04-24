@@ -311,8 +311,8 @@ Window {
         RosStringSubscriber {
             id: releasing
             topic: "releasing"
-            onMessageChanged: {
-                releaseRobot(message);
+            onTextChanged: {
+                releaseRobot(text);
             }
         }
 
