@@ -612,4 +612,33 @@ Window {
             }
     }
 
+    function checkFrames(){
+        var str = frameManager.getAllFrames();
+        for (var i = 0; i<str.length;i++){
+            var found = false;
+            for (var j = 0; j < characters.children.length; j++)
+                if(characters.children[j].name === str[i]){
+                    found = true;
+                    break;
+                }
+            if(!found){
+                var image
+                var scale = 1
+                if(str[i] === "elephant" || str[i] === "giraffe" || str[i] === "hippo" || str[i] === "rhino")
+                    scale = 1.5
+                if(str[i] === "toychild1")
+                    scale = 0.75
+                if(str[i] === "toychild4")
+                    scale = 0.7
+                if(str[i].startsWith("cube"))
+                    image = "/res/cube.svg"
+                else
+                    image = "/res/"+str[i]+".png"
+
+                var component = Qt.createComponent("Character.qml");
+                component.createObject(characters,{"name":str[i],"image":image,"scale":scale})
+            }
+        }
+    }
+
 }
