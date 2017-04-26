@@ -220,10 +220,12 @@ Window {
         }
 
         RosStringSubscriber {
-            id: releasing
-            topic: "releasing"
+            id: eventSubsriber
+            topic: "events"
             onTextChanged: {
-                releaseRobot(text);
+                var str = text;
+                if(str.startsWith("releasing_"))
+                   releaseRobot(str.replace("releasing_",""));
             }
         }
 
