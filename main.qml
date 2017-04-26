@@ -272,6 +272,7 @@ Window {
             topic: "events"
             onTextChanged: {
                 var str = text;
+                addEvent(str);
                 if(str.startsWith("releasing_"))
                    releaseRobot(str.replace("releasing_",""));
             }
@@ -363,6 +364,10 @@ Window {
                 component.createObject(characters,{"name":str[i],"image":image,"scale":scale})
             }
         }
+    }
+
+    function addEvent(str){
+        eventModel.append({"name":str})
     }
 
 }

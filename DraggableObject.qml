@@ -12,6 +12,7 @@ Object {
             onPressed: parent.dragged = true
             onReleased: {
                 publisher.publish()
+                addEvent("request_"+parent.name+"_move")
             }
         }
 }
