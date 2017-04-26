@@ -27,11 +27,59 @@ Window {
 
     color: "black"
     title: qsTr("Zoo GUI")
+    Item{
+        id: eventDisplay
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        anchors.top: parent.top
+        width: parent.width/3
+
+        Component {
+            id: eventStyle
+            Item {
+                width: parent.width; height: 20
+                Column {
+                    Text { text: name }
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: eventList.currentIndex = index
+                }
+                Component.onCompleted: eventList.positionViewAtEnd()
+            }
+        }
+
+        ListView {
+            id: eventList
+            anchors.fill: parent
+            model: eventModel
+            delegate: eventStyle
+            highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
+            highlightMoveVelocity:2000
+            focus: true
+        }
+
+        ListModel {
+            id:  eventModel
+        }
+    }
 
     Item {
         id: zoo
 
-        anchors.fill: parent
+        anchors.left: eventDisplay.right
+        anchors.top: parent.top
+        width: 2*parent.width/3
+        height: 2*parent.height/3
+
+        Rectangle {
+            anchors.fill: parent
+            color: "red"
+            border.color: "blue"
+            border.width: 5
+            radius: 10
+        }
+
 
         //property double physicalMapWidth: 553 //mm (desktop acer monitor)
         property double physicalMapWidth: 600 //mm (sandtray)
