@@ -65,6 +65,92 @@ Window {
             id:  eventModel
         }
     }
+    Item{
+        id: statePanel
+        anchors.top:eventDisplay.bottom
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        anchors.right: eventDisplay.right
+
+        Component {
+            id: stateStyle
+                Label{text: textLabel
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: itemList.currentIndex = index
+                    }
+                }
+        }
+
+        GridView {
+            id: itemList
+            anchors.fill: parent
+            model: stateModel
+            delegate: stateStyle
+            cellWidth: width/3.5
+            cellHeight: height/8
+            //flow: GridView.FlowTopToBottom
+            highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
+            focus: true
+        }
+
+        ListModel {
+            id:  stateModel
+            ListElement{ textLabel: "Zebra"}
+            ListElement{ textLabel: "Desert"}
+            ListElement{ textLabel: "2"}
+            ListElement{ textLabel: "Elephant"}
+            ListElement{ textLabel: "Desert"}
+            ListElement{ textLabel: "2"}
+            ListElement{ textLabel: "Leopard"}
+            ListElement{ textLabel: "Desert"}
+            ListElement{ textLabel: "2"}
+            ListElement{ textLabel: "Lion"}
+            ListElement{ textLabel: "Desert"}
+            ListElement{ textLabel: "2"}
+            ListElement{ textLabel: "Giraffe"}
+            ListElement{ textLabel: "Desert"}
+            ListElement{ textLabel: "2"}
+            ListElement{ textLabel: "rhino"}
+            ListElement{ textLabel: "Desert"}
+            ListElement{ textLabel: "2"}
+            ListElement{ textLabel: "Crocodile"}
+            ListElement{ textLabel: "Desert"}
+            ListElement{ textLabel: "2"}
+            ListElement{ textLabel: "Hippo"}
+            ListElement{ textLabel: "Desert"}
+            ListElement{ textLabel: "2"}
+            ListElement{ textLabel: "Toychild1"}
+            ListElement{ textLabel: "Desert"}
+            ListElement{ textLabel: "2"}
+            ListElement{ textLabel: "Toychild4"}
+            ListElement{ textLabel: "Desert"}
+            ListElement{ textLabel: "2"}
+        }
+
+        RosListIntSubscriber {
+            id: stateSub
+            topic: "state"
+            onListChanged: {
+                var names = ["zebra","elephant","leopard","lion","giraffe","rhino","crocodile","hippo","toychild1","toychild4"]
+                for (var i = 0; i < names.length; i++){
+                    var zone = "undefined"
+                    if(list[i] === 0)
+                        zone = "grass"
+                    if(list[i] === 1)
+                        zone = "water"
+                    if(list[i] === 2)
+                        zone = "desert"
+                    var zoneIdx = String(list[i+names.length])
+                    stateModel.setProperty(3*i+1,"textLabel", zone)
+                    stateModel.setProperty(3*i+2,"textLabel", zoneIdx)
+                }
+
+
+            }
+        }
+    }
+
     Grid{
         id:buttonPannel
         anchors.left: eventDisplay.right
