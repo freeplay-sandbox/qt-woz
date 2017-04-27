@@ -1,6 +1,8 @@
 import QtQuick 2.2
 import QtQuick.Window 2.2
 import QtGraphicalEffects 1.0
+import QtQuick.Controls 1.4
+
 
 import Ros 1.0
 
@@ -25,12 +27,12 @@ Window {
         prevHeight=height;
     }
 
-    color: "black"
+    color: "white"
     title: qsTr("Zoo GUI")
     Item{
         id: eventDisplay
         anchors.left: parent.left
-        anchors.bottom: parent.bottom
+        height: 2./3*parent.height
         anchors.top: parent.top
         width: parent.width/3
 
@@ -62,6 +64,36 @@ Window {
         ListModel {
             id:  eventModel
         }
+    }
+    Grid{
+        id:buttonPannel
+        anchors.left: eventDisplay.right
+        anchors.bottom: parent.bottom
+        anchors.top: zoo.bottom
+        anchors.right: parent.right
+        horizontalItemAlignment: Grid.AlignHCenter
+        verticalItemAlignment: Grid.AlignVCenter
+        columns: 5
+        rows:2
+        Button{
+            text: "button 1"
+        }
+        Button{
+            text: "button 2"
+        }
+        Button{
+            text: "button 3"
+        }
+        Button{
+            text: "button 4"
+        }
+        Button{
+            text: "button 5"
+        }
+        Button{
+            text: "button 6"
+        }
+
     }
 
     Item {
