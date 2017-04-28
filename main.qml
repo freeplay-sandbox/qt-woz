@@ -104,60 +104,64 @@ Window {
             model: stateModel
             delegate: stateStyle
             cellWidth: width/3.5
-            cellHeight: height/8
+            cellHeight: height/10
             //flow: GridView.FlowTopToBottom
-            highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
             focus: true
         }
 
         ListModel {
             id:  stateModel
-            ListElement{ textLabel: "Zebra"}
-            ListElement{ textLabel: "Desert"}
-            ListElement{ textLabel: "2"}
+            ListElement{ textLabel: "Zebra"; selected:false}
+            ListElement{ textLabel:""}
+            ListElement{ textLabel:""}
             ListElement{ textLabel: "Elephant"}
-            ListElement{ textLabel: "Desert"}
-            ListElement{ textLabel: "2"}
+            ListElement{ textLabel:""}
+            ListElement{ textLabel:""}
             ListElement{ textLabel: "Leopard"}
-            ListElement{ textLabel: "Desert"}
-            ListElement{ textLabel: "2"}
+            ListElement{ textLabel:""}
+            ListElement{ textLabel:""}
             ListElement{ textLabel: "Lion"}
-            ListElement{ textLabel: "Desert"}
-            ListElement{ textLabel: "2"}
+            ListElement{ textLabel:""}
+            ListElement{ textLabel:""}
             ListElement{ textLabel: "Giraffe"}
-            ListElement{ textLabel: "Desert"}
-            ListElement{ textLabel: "2"}
+            ListElement{ textLabel:""}
+            ListElement{ textLabel:""}
             ListElement{ textLabel: "rhino"}
-            ListElement{ textLabel: "Desert"}
-            ListElement{ textLabel: "2"}
+            ListElement{ textLabel:""}
+            ListElement{ textLabel:""}
             ListElement{ textLabel: "Crocodile"}
-            ListElement{ textLabel: "Desert"}
-            ListElement{ textLabel: "2"}
+            ListElement{ textLabel:""}
+            ListElement{ textLabel:""}
             ListElement{ textLabel: "Hippo"}
-            ListElement{ textLabel: "Desert"}
-            ListElement{ textLabel: "2"}
+            ListElement{ textLabel:""}
+            ListElement{ textLabel:""}
             ListElement{ textLabel: "Toychild1"}
-            ListElement{ textLabel: "Desert"}
-            ListElement{ textLabel: "2"}
+            ListElement{ textLabel:""}
+            ListElement{ textLabel:""}
             ListElement{ textLabel: "Toychild4"}
-            ListElement{ textLabel: "Desert"}
-            ListElement{ textLabel: "2"}
+            ListElement{ textLabel:""}
+            ListElement{ textLabel:""}
+
         }
 
-        RosListIntSubscriber {
+        RosArrayIntSubscriber {
             id: stateSub
             topic: "state"
-            onListChanged: {
+            onDataChanged: {
                 var names = ["zebra","elephant","leopard","lion","giraffe","rhino","crocodile","hippo","toychild1","toychild4"]
                 for (var i = 0; i < names.length; i++){
                     var zone = "undefined"
-                    if(list[i] === 0)
-                        zone = "grass"
-                    if(list[i] === 1)
-                        zone = "water"
-                    if(list[i] === 2)
-                        zone = "desert"
-                    var zoneIdx = String(list[i+names.length])
+                    switch (data[dimensions[1]*i]){
+                    case 0: zone = "black"; break
+                    case 1: zone = "white"; break
+                    case 2: zone = "purple"; break
+                    case 3: zone = "blue"; break
+                    case 4: zone = "green"; break
+                    case 5: zone = "yellow"; break
+                    case 6: zone = "red"; break
+                    default: break
+                    }
+                    var zoneIdx = String(data[dimensions[1]*i+1])
                     stateModel.setProperty(3*i+1,"textLabel", zone)
                     stateModel.setProperty(3*i+2,"textLabel", zoneIdx)
                 }
