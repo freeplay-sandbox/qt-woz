@@ -74,12 +74,28 @@ Window {
 
         Component {
             id: stateStyle
-                Label{text: textLabel
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: itemList.currentIndex = index
+            Item{
+                id:item
+                property bool select: selected
+                Label{
+                    text:textLabel
+                    Rectangle {
+                        id: rec; anchors.fill: parent; z:-1; color: "white"; radius: 5
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                selected = true
+                            }
+                        }
                     }
                 }
+                onSelectChanged:{
+                    if(select)
+                        rec.color = "lightsteelblue"
+                    else
+                        rec.color = "white"
+                }
+            }
         }
 
         GridView {
@@ -162,7 +178,8 @@ Window {
         columns: 5
         rows:2
         Button{
-            text: "button 1"
+            text: "Reset Selected States"
+            onClicked: resetSelectedStates()
         }
         Button{
             text: "button 2"
@@ -488,4 +505,9 @@ Window {
         eventModel.append({"name":str})
     }
 
+    function resetSelectedStates(){
+        for(var i=0;i<stateModel.count;i++){
+            stateModel.setProperty(i,"selected",false)
+        }
+    }
 }
