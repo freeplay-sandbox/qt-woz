@@ -65,110 +65,13 @@ Window {
             id:  eventModel
         }
     }
-    Item{
+
+    StateViewer{
         id: statePanel
         anchors.top:eventDisplay.bottom
         anchors.left: parent.left
         anchors.bottom: parent.bottom
         anchors.right: eventDisplay.right
-
-        Component {
-            id: stateStyle
-            Item{
-                id:item
-                property bool select: selected
-                Label{
-                    text:textLabel
-                    Rectangle {
-                        id: rec; anchors.fill: parent; z:-1; color: "white"; radius: 5
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                selected = true
-                            }
-                        }
-                    }
-                }
-                onSelectChanged:{
-                    if(select)
-                        rec.color = "lightsteelblue"
-                    else
-                        rec.color = "white"
-                }
-            }
-        }
-
-        GridView {
-            id: itemList
-            anchors.fill: parent
-            model: stateModel
-            delegate: stateStyle
-            cellWidth: width/3.5
-            cellHeight: height/10
-            //flow: GridView.FlowTopToBottom
-            focus: true
-        }
-
-        ListModel {
-            id:  stateModel
-            ListElement{ textLabel: "Zebra"; selected:false}
-            ListElement{ textLabel:""}
-            ListElement{ textLabel:""}
-            ListElement{ textLabel: "Elephant"}
-            ListElement{ textLabel:""}
-            ListElement{ textLabel:""}
-            ListElement{ textLabel: "Leopard"}
-            ListElement{ textLabel:""}
-            ListElement{ textLabel:""}
-            ListElement{ textLabel: "Lion"}
-            ListElement{ textLabel:""}
-            ListElement{ textLabel:""}
-            ListElement{ textLabel: "Giraffe"}
-            ListElement{ textLabel:""}
-            ListElement{ textLabel:""}
-            ListElement{ textLabel: "rhino"}
-            ListElement{ textLabel:""}
-            ListElement{ textLabel:""}
-            ListElement{ textLabel: "Crocodile"}
-            ListElement{ textLabel:""}
-            ListElement{ textLabel:""}
-            ListElement{ textLabel: "Hippo"}
-            ListElement{ textLabel:""}
-            ListElement{ textLabel:""}
-            ListElement{ textLabel: "Toychild1"}
-            ListElement{ textLabel:""}
-            ListElement{ textLabel:""}
-            ListElement{ textLabel: "Toychild4"}
-            ListElement{ textLabel:""}
-            ListElement{ textLabel:""}
-
-        }
-
-        RosArrayIntSubscriber {
-            id: stateSub
-            topic: "state"
-            onDataChanged: {
-                var names = ["zebra","elephant","leopard","lion","giraffe","rhino","crocodile","hippo","toychild1","toychild4"]
-                for (var i = 0; i < names.length; i++){
-                    var zone = "undefined"
-                    switch (data[dimensions[1]*i]){
-                    case 0: zone = "black"; break
-                    case 1: zone = "white"; break
-                    case 2: zone = "purple"; break
-                    case 3: zone = "blue"; break
-                    case 4: zone = "green"; break
-                    case 5: zone = "yellow"; break
-                    case 6: zone = "red"; break
-                    default: break
-                    }
-                    var zoneIdx = String(data[dimensions[1]*i+1])
-                    stateModel.setProperty(3*i+1,"textLabel", zone)
-                    stateModel.setProperty(3*i+2,"textLabel", zoneIdx)
-                }
-
-
-            }
-        }
     }
 
     Grid{
@@ -510,8 +413,6 @@ Window {
     }
 
     function resetSelectedStates(){
-        for(var i=0;i<stateModel.count;i++){
-            stateModel.setProperty(i,"selected",false)
-        }
+        statePanel.reset()
     }
 }

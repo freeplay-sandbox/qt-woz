@@ -30,5 +30,6 @@
         <file>res/toychild5.png</file>
         <file>res/toychild5.svg</file>
         <file>res/zebra.png</file>
+        <file>StateViewer.qml</file>
     </qresource>
 </RCC>
