@@ -32,5 +32,6 @@
         <file>res/zebra.png</file>
         <file>StateViewer.qml</file>
         <file>ActionViewer.qml</file>
+        <file>AnimatedArrow.qml</file>
     </qresource>
 </RCC>

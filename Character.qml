@@ -44,6 +44,13 @@ Item {
         y:listener.y
         visible: selected
     }
+
+    AnimatedArrow {
+        id: arrow
+        origin: listener
+        end: dragger
+        duration: 2000
+        color: "red"
     }
 
     DraggableObject {
