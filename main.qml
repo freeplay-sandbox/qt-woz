@@ -74,6 +74,14 @@ Window {
         anchors.right: eventDisplay.right
     }
 
+    ActionViewer{
+        id: actionViewer
+        anchors.bottom: parent.bottom
+        anchors.left: statePanel.right
+        height: 20
+        width:350
+    }
+
     Grid{
         id:buttonPannel
         anchors.left: eventDisplay.right
