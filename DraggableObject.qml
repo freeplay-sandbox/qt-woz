@@ -11,8 +11,16 @@ Object {
             drag.target: parent
             onPressed: parent.dragged = true
             onReleased: {
-                publisher.publish()
-                addEvent("request_"+parent.name+"_move")
+                if(dist(dragger, listener)<10){
+                    click()
+                }
+                else{
+                    publisher.publish()
+                    addEvent("request_"+parent.name+"_move")
+                }
             }
+        }
+        function dist(a,b){
+            return Math.pow(a.x-b.x,2)+Math.pow(a.y-b.y,2)
         }
 }

@@ -14,6 +14,7 @@ Item {
     property string image: "res/cube.svg"
     property int epsilon: 20
 
+    property bool selected: false
     ListenerObject {
         id: listener
 
@@ -29,7 +30,20 @@ Item {
         onXChanged: testDifference()
         onYChanged: testDifference()
         onRotationChanged: testDifference()
+    }
 
+    Rectangle{
+        id: circle
+        width: 1.1*Math.max(parent.width,parent.height)
+        height: width
+        color: "transparent"
+        border.color: "red"
+        border.width: 5
+        radius: width
+        x:listener.x
+        y:listener.y
+        visible: selected
+    }
     }
 
     DraggableObject {
@@ -66,5 +80,8 @@ Item {
             dragger.y =listener.y
             dragger.rotation =listener.rotation
         }
+    }
+    function click(){
+        selected = !selected
     }
 }

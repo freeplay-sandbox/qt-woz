@@ -16,4 +16,14 @@ Object {
                 parent.rotation= rotation
             }
         }
+        MouseArea {
+            id: selectArea
+            anchors.fill: parent
+            onReleased: {
+                click()
+            }
+        }
+        function dist(a,b){
+            return Math.pow(a.x-b.x,2)+Math.pow(a.y-b.y,2)
+        }
 }
