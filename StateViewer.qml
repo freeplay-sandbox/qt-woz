@@ -139,7 +139,7 @@ Item{
 
     RosArrayIntSubscriber {
         id: stateSub
-        topic: "state"
+        topic: "sparc/state"
         onDataChanged: {
             var names = ["zebra","elephant","leopard","lion","giraffe","rhino","crocodile","hippo","toychild1","toychild4"]
             for (var i = 0; i < names.length; i++){
