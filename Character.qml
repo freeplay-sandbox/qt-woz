@@ -63,13 +63,19 @@ Item {
         width: parent.width
     }
 
-    RosPosePublisher {
+    RosActionPublisher {
         id: publisher
         pixelscale: zoo.pixel2meter
         target: dragger
         frame: parent.name
         origin: listener
-        topic: "goal"
+        topic: "sparc/selected_action"
+        function updateList(){
+            strings.splice(0,strings.length)
+            for(var i=0;i<selectedItems.length;i++){
+                strings.push(selectedItems[i])
+            }
+        }
     }
 
     function resetGhost(){
@@ -88,7 +94,27 @@ Item {
             dragger.rotation =listener.rotation
         }
     }
+
+    function setDraggerPose(x,y,z){
+        console.log("setting "+name+" to "+x+" "+y+" "+z)
+        dragger.dragged = true
+        dragger.x = x
+        dragger.y = y
+    }
     function click(){
         selected = !selected
+    }
+
+    function select(){
+        selected = true
+    }
+
+    onSelectedChanged: {
+        if(selected){
+            addSelectedItem(name)
+        }
+        else{
+            removeSelectedItem(name)
+        }
     }
 }

@@ -15,6 +15,7 @@ Object {
                     click()
                 }
                 else{
+                    publisher.updateList()
                     publisher.publish()
                     addEvent("request_"+parent.name+"_move")
                 }

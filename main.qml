@@ -19,6 +19,7 @@ Window {
 
     property int prevWidth:800
     property int prevHeight:600
+    property var selectedItems: []
 
     onWidthChanged: {
         prevWidth=width;
@@ -381,6 +382,7 @@ Window {
 
     function releaseRobot(item){
         robot_hand.visible = false
+        resetSelectedItems()
         for (var i = 0; i < characters.children.length; i++)
             if(characters.children[i].name === item){
                 characters.children[i].resetGhost()
@@ -416,11 +418,51 @@ Window {
         }
     }
 
+    RosActionSubscriber {
+        id: actionSubscriber
+        pixelscale: zoo.pixel2meter
+        topic: "sparc/proposed_action"
+
+        onActionReceived:{
+            for (var i = 0;i<strings.length;i++){
+                for (var j = 0; j < characters.children.length; j++){
+                    if(characters.children[j].name === strings[i]){
+                        characters.children[j].select()
+                        continue
+                    }
+                }
+            }
+
+            for (var j = 0; j < characters.children.length; j++){
+                if(characters.children[j].name === frame){
+                    characters.children[j].setDraggerPose(x,y,z)
+                }
+                if(strings.indexOf(characters.children[j].name)>-1){
+                    characters.children[j].selected = true
+                }
+            }
+        }
+    }
+
     function addEvent(str){
         eventModel.append({"name":str})
     }
 
     function resetSelectedStates(){
         statePanel.reset()
+    }
+    function resetSelectedItems(){
+        for (var j = 0; j < characters.children.length; j++)
+            characters.children[j].selected = false
+    }
+
+    function addSelectedItem(name){
+        selectedItems.push(name)
+    }
+    function removeSelectedItem(name){
+        var index = selectedItems.indexOf(name)
+        if (index>-1){
+            selectedItems.splice(index,1)
+        }
     }
 }
