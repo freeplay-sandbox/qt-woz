@@ -403,15 +403,19 @@ Window {
                 var scale = 1
                 if(str[i] === "elephant" || str[i] === "giraffe" || str[i] === "hippo" || str[i] === "rhino")
                     scale = 1.5
-                if(str[i] === "toychild1")
-                    scale = 0.75
-                if(str[i] === "toychild4")
+                if(str[i] === "ball")
                     scale = 0.7
+                if(str[i] === "caravan")
+                    scale = 2.5
+
                 if(str[i].startsWith("cube"))
                     image = "/res/cube.svg"
-                else
-                    image = "/res/"+str[i]+".png"
-
+                else{
+                    if(str[i] === "ball" || str[i] === "boy" || str[i] === "girl" || str[i] === "caravan")
+                        image = "/res/"+str[i]+".svg"
+                    else
+                        image = "/res/"+str[i]+".png"
+                }
                 var component = Qt.createComponent("Character.qml");
                 component.createObject(characters,{"name":str[i],"image":image,"scale":scale})
             }

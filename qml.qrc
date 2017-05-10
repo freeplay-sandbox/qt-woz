@@ -9,29 +9,21 @@
         <file>res/tags/markers.svg</file>
         <file>DraggableObject.qml</file>
         <file>ListenerObject.qml</file>
-        <file>res/toychild1.svg</file>
-        <file>res/alternate_rocket.svg</file>
-        <file>res/child_head.svg</file>
         <file>res/crocodile.png</file>
-        <file>res/cube.svg</file>
         <file>res/elephant.png</file>
         <file>res/giraffe.png</file>
         <file>res/hippo.png</file>
         <file>res/leopard.png</file>
         <file>res/lion.png</file>
-        <file>res/map.svg</file>
         <file>res/rhino.png</file>
         <file>res/rocket.svg</file>
-        <file>res/toychild1.png</file>
-        <file>res/toychild2.svg</file>
-        <file>res/toychild3.svg</file>
-        <file>res/toychild4.png</file>
-        <file>res/toychild4.svg</file>
-        <file>res/toychild5.png</file>
-        <file>res/toychild5.svg</file>
         <file>res/zebra.png</file>
         <file>StateViewer.qml</file>
         <file>ActionViewer.qml</file>
         <file>AnimatedArrow.qml</file>
+        <file>res/girl.svg</file>
+        <file>res/caravan.svg</file>
+        <file>res/boy.svg</file>
+        <file>res/ball.svg</file>
     </qresource>
 </RCC>
