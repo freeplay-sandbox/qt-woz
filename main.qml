@@ -134,24 +134,16 @@ Window {
     Item {
         id: zoo
 
-        anchors.left: eventDisplay.right
+        anchors.fill: parent
+       /* anchors.left: eventDisplay.right
         anchors.top: parent.top
         width: 2*parent.width/3
         height: 2*parent.height/3
-
-        Rectangle {
-            anchors.fill: parent
-            color: "red"
-            border.color: "blue"
-            border.width: 5
-            radius: 10
-        }
-
-
+*/
         //property double physicalMapWidth: 553 //mm (desktop acer monitor)
         property double physicalMapWidth: 600 //mm (sandtray)
         property double physicalCubeSize: 30 //mm
-        property double pixel2meter: (physicalMapWidth / 1000) / map.paintedWidth
+        property double pixel2meter: (physicalMapWidth / 1000) / parent.width
 
         property bool showRobotChild: false
         property bool publishRobotChild: false
@@ -159,7 +151,10 @@ Window {
         Image {
             id: map
             fillMode: Image.PreserveAspectFit
-            anchors.fill: parent
+            height: parent.height
+            width: parent.width * 0.88
+            anchors.left: parent.left
+            anchors.top: parent.top
             source: "image://rosimage/sandbox/image"
             cache: false
             Timer {
@@ -184,7 +179,24 @@ Window {
                 y: map.y + (map.height - map.paintedHeight)/2
             }
         }
+        Rectangle {
+            id: stash
+            color: "black"
+            height: map.height
+            width: parent.width - map.width
+            anchors.left: map.right
+            anchors.top: map.top
 
+            Rectangle {
+               height: parent.height
+                width: 5
+                anchors.left: parent.left
+                anchors.top: parent.top
+                color: "#555"
+
+            }
+        }
+/*
         TFListener {
             id: robotArmReach
             x: window.width/2
@@ -214,7 +226,7 @@ Window {
                 color: "#55FFAA44"
             }
         }
-
+*/
         Item {
             id: robotFocus
             x: window.width/2
