@@ -13,7 +13,6 @@ Item {
     property string name: ""
     property string image: "res/cube.svg"
     property int epsilon: 20
-
     property bool selected: false
     ListenerObject {
         id: listener
@@ -103,10 +102,10 @@ Item {
     }
 
     function setDraggerPose(x,y,z){
-        console.log("setting "+name+" to "+x+" "+y+" "+z)
         dragger.dragged = true
         dragger.x = x
         dragger.y = y
+
         arrow.origin = listener
         arrow.end = dragger
         arrow.start()
@@ -114,6 +113,7 @@ Item {
         actionToExecute = "move_"+name
         autoExe.start()
     }
+
     function click(){
         selected = !selected
     }

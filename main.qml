@@ -158,8 +158,8 @@ Window {
             source: "image://rosimage/sandbox/image"
             cache: false
             Timer {
-                id: imageLoder
-                interval: 1000
+                id: imageLoader
+                interval: 100
                 repeat: true
                 running: true
                 onTriggered: {
@@ -373,7 +373,7 @@ Window {
             }
         }
     }
-
+/*
     MouseArea {
         width:30
         height:width
@@ -407,6 +407,7 @@ Window {
 
         }
     }
+*/
 
     function releaseRobot(item){
         robot_hand.visible = false
