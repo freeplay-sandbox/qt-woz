@@ -20,6 +20,7 @@ Window {
     property int prevWidth:800
     property int prevHeight:600
     property var selectedItems: []
+    property string actionToExecute: ""
 
     onWidthChanged: {
         prevWidth=width;
@@ -114,6 +115,21 @@ Window {
         }
 
     }
+
+    Timer {
+        id: autoExe
+        interval: 2000; running: false; repeat: false
+        onTriggered:{
+            var action = actionToExecute.split("_")
+            if(action[0] === "move"){
+                for (var i = 0; i < characters.children.length; i++)
+                    if(characters.children[i].name === action[1]){
+                        characters.children[i].move()
+                    }
+            }
+        }
+    }
+
 
     Item {
         id: zoo

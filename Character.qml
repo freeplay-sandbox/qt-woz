@@ -100,6 +100,8 @@ Item {
         dragger.dragged = true
         dragger.x = x
         dragger.y = y
+        actionToExecute = "move_"+name
+        autoExe.start()
     }
     function click(){
         selected = !selected
@@ -116,5 +118,9 @@ Item {
         else{
             removeSelectedItem(name)
         }
+    }
+    function move(){
+        publisher.publish()
+        arrow.visible = false
     }
 }
