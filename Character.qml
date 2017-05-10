@@ -61,6 +61,13 @@ Item {
         property double scale: 1.0
         property double bbScale: 1.0
         width: parent.width
+      /*    onDraggedChanged: {
+          if(dragged){
+                arrow.visible = true
+            }
+            else
+                arrow.visible = false
+        }*/
     }
 
     RosActionPublisher {
@@ -100,6 +107,10 @@ Item {
         dragger.dragged = true
         dragger.x = x
         dragger.y = y
+        arrow.origin = listener
+        arrow.end = dragger
+        arrow.start()
+        arrow.visible = true
         actionToExecute = "move_"+name
         autoExe.start()
     }
