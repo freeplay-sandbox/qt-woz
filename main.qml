@@ -348,7 +348,7 @@ Window {
 
         RosStringSubscriber {
             id: eventSubsriber
-            topic: "events"
+            topic: "sandtray/interaction_events"
             onTextChanged: {
                 var str = text;
                 addEvent(str);
