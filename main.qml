@@ -440,12 +440,16 @@ Window {
                 if(str[i].startsWith("cube"))
                     image = "/res/cube.svg"
                 else{
-                    if(str[i] === "ball" || str[i] === "boy" || str[i] === "girl" || str[i] === "caravan")
+                    if(str[i] === "ball" || str[i] === "boy" || str[i] === "girl" || str[i] === "caravan" || str[i] === "rocket" || str[i]==="alternate_rocket")
                         image = "/res/"+str[i]+".svg"
                     else
                         image = "/res/"+str[i]+".png"
                 }
-                var component = Qt.createComponent("Character.qml");
+                if(str[i]==="rocket" || str[i]==="alternate_rocket")
+                    var component = Qt.createComponent("StaticImage.qml")
+                else
+                    var component = Qt.createComponent("Character.qml")
+
                 component.createObject(characters,{"name":str[i],"image":image,"scale":scale})
             }
         }
