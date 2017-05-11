@@ -3,7 +3,7 @@
         <file>main.qml</file>
         <file>main.cpp</file>
         <file>Object.qml</file>
-        <file>Character.qml</file>
+        <file>StaticImage.qml</file>
         <file>res/nao_hand.svg</file>
         <file>res/nao_head.svg</file>
         <file>res/tags/markers.svg</file>
@@ -25,5 +25,7 @@
         <file>res/caravan.svg</file>
         <file>res/boy.svg</file>
         <file>res/ball.svg</file>
+        <file>Character.qml</file>
+        <file>res/alternate_rocket.svg</file>
     </qresource>
 </RCC>

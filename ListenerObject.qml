@@ -4,6 +4,7 @@ import Ros 1.0
 Object {
         id:listenerObject
 
+        z:-10
         TFListener {
             id:tf
             frame: parent.name
