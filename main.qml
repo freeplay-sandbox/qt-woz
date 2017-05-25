@@ -119,11 +119,72 @@ Window {
         Button{
             text: "button 4"
         }
-        Button{
-            text: "button 5"
+        Rectangle{
+            id: buttonNegReward
+            width: 1.5 * parent.cellSize / 3
+            height: width
+            radius: width/2
+            color: "red"
+            border.color: "black"
+            border.width: width / 10
+            Label{
+                anchors.fill: parent
+                horizontalAlignment: Label.AlignHCenter
+                verticalAlignment: Label.AlignVCenter
+                font.pixelSize: 80
+                font.bold: true
+                text: "-"
+            }
+            SequentialAnimation {
+                id: lightningNeg
+                PropertyAnimation{target: buttonNegReward; property: "color"; to: "orange"; duration: 100}
+                PropertyAnimation{target: buttonNegReward; property: "color"; to: "red"; duration: 100}
+            }
+            MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                    //eventPublisher.text = "sup_neg_rew"
+
+                    rewardPublisher.updateList()
+                    rewardPublisher.reward = false
+                    rewardPublisher.publish()
+                    lightningNeg.start()
+                }
+            }
         }
-        Button{
-            text: "button 6"
+        Rectangle{
+            id: buttonPosReward
+            width: 1.5 * parent.cellSize / 3
+            height: width
+            radius: width/2
+            color: "green"
+            border.color: "black"
+            border.width: width / 10
+            Label{
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                horizontalAlignment: Label.AlignHCenter
+                verticalAlignment: Label.AlignVCenter
+                font.pixelSize: 60
+                font.bold: true
+                text: "+"
+            }
+            SequentialAnimation {
+                id: lightningPos
+                PropertyAnimation{target: buttonPosReward; property: "color"; to: "lime"; duration: 100}
+                PropertyAnimation{target: buttonPosReward; property: "color"; to: "green"; duration: 100}
+
+            }
+            MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                    //eventPublisher.text = "sup_pos_rew"
+                    lightningPos.start()
+                    rewardPublisher.updateList()
+                    rewardPublisher.reward = true
+                    rewardPublisher.publish()
+                }
+            }
         }
 
     }
