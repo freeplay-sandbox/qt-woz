@@ -369,6 +369,11 @@ Window {
             }
         }
 
+        RosStringPublisher {
+            id: eventPublisher
+            topic: "sandtray/interaction_events"
+        }
+
         Item {
             id: characters
         }
