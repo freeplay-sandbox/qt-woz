@@ -269,6 +269,19 @@ Window {
 
             }
         }
+
+        Rectangle{
+            id: rewardDisplay
+            anchors.fill: parent
+            opacity: 0.
+            color: "green"
+            SequentialAnimation {
+                id: showNegReward
+                PropertyAnimation{target: rewardDisplay; property: "opacity"; to: .5; duration: 100}
+                PropertyAnimation{target: rewardDisplay; property: "opacity"; to: 0; duration: 100}
+            }
+        }
+
 /*
         TFListener {
             id: robotArmReach
@@ -590,6 +603,16 @@ Window {
         var index = selectedItems.indexOf(name)
         if (index>-1){
             selectedItems.splice(index,1)
+        }
+    }
+    function showReward(type){
+        if (type === "pos"){
+            rewardDisplay.color = "green"
+            showNegReward.start()
+        }
+        if (type === "neg"){
+            rewardDisplay.color = "red"
+            showNegReward.start()
         }
     }
 }
