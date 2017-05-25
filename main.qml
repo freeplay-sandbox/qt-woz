@@ -116,8 +116,34 @@ Window {
             height: parent.height/2
             text: "button 3"
         }
-        Button{
-            text: "button 4"
+        Rectangle{
+            id: buttonCancel
+            width: 1.5 * parent.cellSize / 3
+            height: width
+            radius: width/2
+            color: "red"
+            border.color: "black"
+            border.width: width / 10
+            SequentialAnimation {
+                id: lightningCan
+                PropertyAnimation{target: buttonCancel; property: "color"; to: "orange"; duration: 100}
+                PropertyAnimation{target: buttonCancel; property: "color"; to: "red"; duration: 100}
+            }
+            Label{
+                anchors.fill: parent
+                horizontalAlignment: Label.AlignHCenter
+                verticalAlignment: Label.AlignVCenter
+                font.pixelSize: 20
+                font.bold: true
+                text: "Cancel"
+            }
+            MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                    autoExe.stop()
+                    eventPublisher.text = "sup_act_cancel"
+                }
+            }
         }
         Rectangle{
             id: buttonNegReward
