@@ -86,22 +86,34 @@ Window {
 
     Grid{
         id:buttonPannel
-        anchors.left: eventDisplay.right
+        anchors.left: parent.left
         anchors.bottom: parent.bottom
-        anchors.top: zoo.bottom
+        height: parent.height/10
         anchors.right: parent.right
         horizontalItemAlignment: Grid.AlignHCenter
         verticalItemAlignment: Grid.AlignVCenter
-        columns: 5
-        rows:2
+        columns: 6
+        columnSpacing: width/20
+        leftPadding: columnSpacing
+        rightPadding: columnSpacing
+        z: 5
+        property int n: 6
+        property int cellSize: (width-(n+1)*columnSpacing)/n
         Button{
+            width: parent.cellSize
+            height: parent.height/2
             text: "Reset Selected States"
+
             onClicked: resetSelectedStates()
         }
         Button{
+            width: parent.cellSize
+            height: parent.height/2
             text: "button 2"
         }
         Button{
+            width: parent.cellSize
+            height: parent.height/2
             text: "button 3"
         }
         Button{
