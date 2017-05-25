@@ -467,6 +467,18 @@ Window {
         }
     }
 
+    RosRewardPublisher{
+        id: rewardPublisher
+        topic: "sparc/sup_reward"
+        reward: false
+        function updateList(){
+            strings.splice(0,strings.length)
+            for(var i=0;i<selectedItems.length;i++){
+                strings.push(selectedItems[i])
+            }
+        }
+    }
+
     RosActionSubscriber {
         id: actionSubscriber
         pixelscale: zoo.pixel2meter
