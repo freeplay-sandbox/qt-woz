@@ -20,7 +20,6 @@ Window {
     property int prevWidth:800
     property int prevHeight:600
     property var selectedItems: []
-    property string actionToExecute: ""
 
     onWidthChanged: {
         prevWidth=width;
@@ -216,15 +215,71 @@ Window {
 
     Timer {
         id: autoExe
-        interval: 2000; running: false; repeat: false
-        onTriggered:{
-            var action = actionToExecute.split("_")
-            if(action[0] === "move"){
-                for (var i = 0; i < characters.children.length; i++)
-                    if(characters.children[i].name === action[1]){
-                        characters.children[i].move()
-                    }
+        interval: 3000; running: false; repeat: false
+        onTriggered:{actionPublisher.executeAction()}
+    }
+
+    RosActionPublisher {
+        id: actionPublisher
+        pixelscale: zoo.pixel2meter
+        target: zoo
+        frame: "sandtray"
+        origin: zoo
+        type: "move"
+        topic: "sparc/selected_action"
+        function updateList(){
+            strings.splice(0,strings.length)
+            for(var i=0;i<selectedItems.length;i++){
+                strings.push(selectedItems[i])
             }
+        }
+        function prepareMove(listener, dragger, name){
+            updateList()
+            origin = listener
+            target = dragger
+            frame = name
+            type = "move"
+        }
+        function executeAction(){
+            if(type == "move")
+                for (var i = 0; i < characters.children.length; i++)
+                    if(characters.children[i].name === frame){
+                        characters.children[i].hideArrow()
+                        break
+                    }
+
+            publish()
+        }
+        function makeMove(listener, dragger, name){
+            prepareMove(listener, dragger, name)
+            executeAction()
+        }
+    }
+
+    RosActionPublisher {
+        id: actionCanceller
+        pixelscale: zoo.pixel2meter
+        target: zoo
+        frame: "sandtray"
+        origin: zoo
+        topic: "sparc/cancelled_action"
+        type: "move"
+        function updateList(){
+            strings.splice(0,strings.length)
+            for(var i=0;i<selectedItems.length;i++){
+                strings.push(selectedItems[i])
+            }
+        }
+        function cancelAction(){
+            updateList()
+            target = actionPublisher.target
+            frame = actionPublisher.frame
+            origin = actionPublisher.origin
+            type = actionPublisher.type
+            console.log(target.name)
+            console.log(target.x)
+            console.log(origin.x)
+            publish()
         }
     }
 
@@ -586,24 +641,27 @@ Window {
     RosActionSubscriber {
         id: actionSubscriber
         pixelscale: zoo.pixel2meter
+        origin: mapOrigin
         topic: "sparc/proposed_action"
 
         onActionReceived:{
-            for (var i = 0;i<strings.length;i++){
-                for (var j = 0; j < characters.children.length; j++){
-                    if(characters.children[j].name === strings[i]){
-                        characters.children[j].select()
-                        continue
+            if(type == "move"){
+                for (var i = 0;i<strings.length;i++){
+                    for (var j = 0; j < characters.children.length; j++){
+                        if(characters.children[j].name === strings[i]){
+                            characters.children[j].select()
+                            continue
+                        }
                     }
                 }
-            }
 
-            for (var j = 0; j < characters.children.length; j++){
-                if(characters.children[j].name === frame){
-                    characters.children[j].setDraggerPose(x,y,z)
-                }
-                if(strings.indexOf(characters.children[j].name)>-1){
-                    characters.children[j].selected = true
+                for (var j = 0; j < characters.children.length; j++){
+                    if(characters.children[j].name === frame){
+                        characters.children[j].setDraggerPose(x,y,z)
+                    }
+                    if(strings.indexOf(characters.children[j].name)>-1){
+                        characters.children[j].selected = true
+                    }
                 }
             }
         }
@@ -642,11 +700,12 @@ Window {
     }
     function cancelAutoExe(){
         autoExe.stop()
+        actionCanceller.cancelAction()
         eventPublisher.text = "sup_act_cancel"
-        var action = actionToExecute.split("_")
-        if(action[0] === "move"){
+
+        if(actionPublisher.type === "move"){
             for (var i = 0; i < characters.children.length; i++)
-                if(characters.children[i].name === action[1]){
+                if(characters.children[i].name === actionPublisher.frame){
                     characters.children[i].cancelMove()
                 }
         }

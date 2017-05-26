@@ -69,36 +69,6 @@ Item {
         }*/
     }
 
-    RosActionPublisher {
-        id: publisher
-        pixelscale: zoo.pixel2meter
-        target: dragger
-        frame: parent.name
-        origin: listener
-        topic: "sparc/selected_action"
-        function updateList(){
-            strings.splice(0,strings.length)
-            for(var i=0;i<selectedItems.length;i++){
-                strings.push(selectedItems[i])
-            }
-        }
-    }
-
-    RosActionPublisher {
-        id: canceller
-        pixelscale: zoo.pixel2meter
-        target: dragger
-        frame: parent.name
-        origin: listener
-        topic: "sparc/cancelled_action"
-        function updateList(){
-            strings.splice(0,strings.length)
-            for(var i=0;i<selectedItems.length;i++){
-                strings.push(selectedItems[i])
-            }
-        }
-    }
-
     function resetGhost(){
         dragger.dragged = false
         testDifference()
@@ -118,14 +88,15 @@ Item {
 
     function setDraggerPose(x,y,z){
         dragger.dragged = true
-        dragger.x = x
-        dragger.y = y
+        var angle = listener.rotation * 2 * Math.PI / 360
+        dragger.x = listener.x + x*Math.cos(angle) - y*Math.sin(angle)
+        dragger.y = listener.y + x*Math.sin(angle) + y*Math.cos(angle)
 
         arrow.origin = listener
         arrow.end = dragger
         arrow.start()
         arrow.visible = true
-        actionToExecute = "move_"+name
+        actionPublisher.prepareMove(listener, dragger, name)
         autoExe.start()
     }
 
@@ -145,14 +116,11 @@ Item {
             removeSelectedItem(name)
         }
     }
-    function move(){
-        publisher.publish()
-        arrow.visible = false
-    }
     function cancelMove(){
         arrow.visible = false
         resetGhost()
-        canceller.updateList()
-        canceller.publish()
+    }
+    function hideArrow(){
+        arrow.visible = false
     }
 }

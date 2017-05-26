@@ -16,9 +16,7 @@ Object {
                 }
                 else{
                     //arrow.start()
-                    publisher.updateList()
-                    publisher.publish()
-                    addEvent("request_"+parent.name+"_move")
+                    actionPublisher.makeMove(listener, dragger, parent.name)
                 }
             }
         }
