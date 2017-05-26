@@ -18,6 +18,7 @@ Item {
 
     function start() {
         pathAnimation.start();
+        canvas.path = []
     }
 
     Canvas {
