@@ -26,6 +26,6 @@
         <file>res/boy.svg</file>
         <file>res/ball.svg</file>
         <file>Character.qml</file>
-        <file>res/alternate_rocket.svg</file>
+        <file>res/alternaterocket.svg</file>
     </qresource>
 </RCC>
