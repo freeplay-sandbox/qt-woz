@@ -599,6 +599,9 @@ Window {
                     break;
                 }
             if(!found){
+                if(!(str[i] === "ball" || str[i] === "boy" || str[i] === "girl" || str[i] === "caravan" || str[i] === "rocket" || str[i]==="alternaterocket" ||
+                     str[i] === "elephant" || str[i] === "zebra" || str[i] === "crocodile" || str[i] === "lion" || str[i] === "giraffe" || str[i] === "hippo" || str[i] === "rhino"))
+                    continue
                 var image
                 var scale = 1
                 if(str[i] === "elephant" || str[i] === "giraffe" || str[i] === "hippo" || str[i] === "rhino")
