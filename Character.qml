@@ -84,6 +84,21 @@ Item {
         }
     }
 
+    RosActionPublisher {
+        id: canceller
+        pixelscale: zoo.pixel2meter
+        target: dragger
+        frame: parent.name
+        origin: listener
+        topic: "sparc/cancelled_action"
+        function updateList(){
+            strings.splice(0,strings.length)
+            for(var i=0;i<selectedItems.length;i++){
+                strings.push(selectedItems[i])
+            }
+        }
+    }
+
     function resetGhost(){
         dragger.dragged = false
         testDifference()
@@ -133,5 +148,11 @@ Item {
     function move(){
         publisher.publish()
         arrow.visible = false
+    }
+    function cancelMove(){
+        arrow.visible = false
+        resetGhost()
+        canceller.updateList()
+        canceller.publish()
     }
 }

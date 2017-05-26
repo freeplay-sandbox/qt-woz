@@ -140,8 +140,7 @@ Window {
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
-                    autoExe.stop()
-                    eventPublisher.text = "sup_act_cancel"
+                    cancelAutoExe()
                 }
             }
         }
@@ -639,6 +638,17 @@ Window {
         if (type === "neg"){
             rewardDisplay.color = "red"
             showNegReward.start()
+        }
+    }
+    function cancelAutoExe(){
+        autoExe.stop()
+        eventPublisher.text = "sup_act_cancel"
+        var action = actionToExecute.split("_")
+        if(action[0] === "move"){
+            for (var i = 0; i < characters.children.length; i++)
+                if(characters.children[i].name === action[1]){
+                    characters.children[i].cancelMove()
+                }
         }
     }
 }
