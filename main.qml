@@ -669,6 +669,15 @@ Window {
             }
         }
     }
+    RosListFloatSubscriber{
+        id: lifeSubscriber
+        topic: "sparc/partial_state"
+        onListChanged:{
+            for (var j = 0; j < characters.children.length; j++)
+                characters.children[j].life = list[j]
+
+        }
+    }
 
     function addEvent(str){
         eventModel.append({"name":str})

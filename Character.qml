@@ -9,6 +9,7 @@ Item {
     x: 0
     y: 0
     rotation: 0
+    property double life: 1
 
     property string name: ""
     property string image: "res/cube.svg"
@@ -29,6 +30,33 @@ Item {
         onXChanged: testDifference()
         onYChanged: testDifference()
         onRotationChanged: testDifference()
+    }
+
+    ProgressBar {
+        id: lifeSlider
+        anchors.bottom: listener.top
+        anchors.bottomMargin: listener.height/10
+        anchors.horizontalCenter: listener.horizontalCenter
+        width: listener.width
+        value: life
+        height: listener.height/10
+
+        style: ProgressBarStyle {
+            background: Rectangle {
+                radius: 2
+                color: "Crimson"
+                border.color: "black"
+                border.width: 1
+                implicitWidth: 200
+                implicitHeight: 24
+            }
+            progress: Rectangle {
+                color: "lime"
+                border.color: "black"
+                implicitWidth: 200
+                implicitHeight: 24
+            }
+        }
     }
 
     Rectangle{
