@@ -32,54 +32,6 @@ Item {
         onRotationChanged: testDifference()
     }
 
-    ProgressBar {
-        id: lifeSlider
-        anchors.bottom: listener.top
-        anchors.bottomMargin: listener.height/10
-        anchors.horizontalCenter: listener.horizontalCenter
-        width: listener.width
-        value: life
-        height: listener.height/10
-
-        style: ProgressBarStyle {
-            background: Rectangle {
-                radius: 2
-                color: "Crimson"
-                border.color: "black"
-                border.width: 1
-                implicitWidth: 200
-                implicitHeight: 24
-            }
-            progress: Rectangle {
-                color: "lime"
-                border.color: "black"
-                implicitWidth: 200
-                implicitHeight: 24
-            }
-        }
-    }
-
-    Rectangle{
-        id: circle
-        width: 1.1*Math.max(parent.width,parent.height)
-        height: width
-        color: "transparent"
-        border.color: "red"
-        border.width: 5
-        radius: width
-        x:listener.x
-        y:listener.y
-        visible: selected
-    }
-
-    AnimatedArrow {
-        id: arrow
-        origin: listener
-        end: dragger
-        duration: 2000
-        color: "red"
-    }
-
     DraggableObject {
         id: dragger
         name: parent.name
@@ -88,13 +40,6 @@ Item {
         property double scale: 1.0
         property double bbScale: 1.0
         width: parent.width
-      /*    onDraggedChanged: {
-          if(dragged){
-                arrow.visible = true
-            }
-            else
-                arrow.visible = false
-        }*/
     }
 
     function resetGhost(){
@@ -112,43 +57,5 @@ Item {
             dragger.y =listener.y
             dragger.rotation =listener.rotation
         }
-    }
-
-    function setDraggerPose(x,y,z){
-        dragger.dragged = true
-        var angle = listener.rotation * 2 * Math.PI / 360
-        dragger.x = listener.x + x*Math.cos(angle) - y*Math.sin(angle)
-        dragger.y = listener.y + x*Math.sin(angle) + y*Math.cos(angle)
-
-        arrow.origin = listener
-        arrow.end = dragger
-        arrow.start()
-        arrow.visible = true
-        actionPublisher.prepareMove(listener, dragger, name)
-        autoExe.start()
-    }
-
-    function click(){
-        selected = !selected
-    }
-
-    function select(){
-        selected = true
-    }
-
-    onSelectedChanged: {
-        if(selected){
-            addSelectedItem(name)
-        }
-        else{
-            removeSelectedItem(name)
-        }
-    }
-    function cancelMove(){
-        arrow.visible = false
-        resetGhost()
-    }
-    function hideArrow(){
-        arrow.visible = false
     }
 }

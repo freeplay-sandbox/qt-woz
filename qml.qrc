@@ -3,7 +3,6 @@
         <file>main.qml</file>
         <file>main.cpp</file>
         <file>Object.qml</file>
-        <file>StaticImage.qml</file>
         <file>res/nao_hand.svg</file>
         <file>res/nao_head.svg</file>
         <file>res/tags/markers.svg</file>
@@ -18,9 +17,6 @@
         <file>res/rhino.png</file>
         <file>res/rocket.svg</file>
         <file>res/zebra.png</file>
-        <file>StateViewer.qml</file>
-        <file>ActionViewer.qml</file>
-        <file>AnimatedArrow.qml</file>
         <file>res/girl.svg</file>
         <file>res/caravan.svg</file>
         <file>res/boy.svg</file>

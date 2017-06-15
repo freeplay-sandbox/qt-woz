@@ -1,8 +1,7 @@
-import QtQuick 2.2
+import QtQuick 2.7
 import QtQuick.Window 2.2
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 1.4
-
 
 import Ros 1.0
 
@@ -19,7 +18,6 @@ Window {
 
     property int prevWidth:800
     property int prevHeight:600
-    property var selectedItems: []
 
     onWidthChanged: {
         prevWidth=width;
@@ -30,194 +28,6 @@ Window {
 
     color: "white"
     title: qsTr("Zoo GUI")
-    Item{
-        id: eventDisplay
-        anchors.left: parent.left
-        height: 2./3*parent.height
-        anchors.top: parent.top
-        width: parent.width/3
-
-        Component {
-            id: eventStyle
-            Item {
-                width: parent.width; height: 20
-                Column {
-                    Text { text: name }
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: eventList.currentIndex = index
-                }
-                Component.onCompleted: eventList.positionViewAtEnd()
-            }
-        }
-
-        ListView {
-            id: eventList
-            anchors.fill: parent
-            model: eventModel
-            delegate: eventStyle
-            highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
-            highlightMoveVelocity:2000
-            focus: true
-        }
-
-        ListModel {
-            id:  eventModel
-        }
-    }
-
-    StateViewer{
-        id: statePanel
-        anchors.top:eventDisplay.bottom
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
-        anchors.right: eventDisplay.right
-    }
-
-    ActionViewer{
-        id: actionViewer
-        anchors.bottom: parent.bottom
-        anchors.left: statePanel.right
-        height: 20
-        width:350
-    }
-
-    Grid{
-        id:buttonPannel
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
-        height: parent.height/10
-        anchors.right: parent.right
-        horizontalItemAlignment: Grid.AlignHCenter
-        verticalItemAlignment: Grid.AlignVCenter
-        columns: 6
-        columnSpacing: width/20
-        leftPadding: columnSpacing
-        rightPadding: columnSpacing
-        z: 5
-        property int n: 6
-        property int cellSize: (width-(n+1)*columnSpacing)/n
-        Button{
-            width: parent.cellSize
-            height: parent.height/2
-            text: "Reset Selected States"
-
-            onClicked: resetSelectedStates()
-        }
-        Button{
-            width: parent.cellSize
-            height: parent.height/2
-            text: "button 2"
-        }
-        Button{
-            width: parent.cellSize
-            height: parent.height/2
-            text: "button 3"
-        }
-        Rectangle{
-            id: buttonCancel
-            width: 1.5 * parent.cellSize / 3
-            height: width
-            radius: width/2
-            color: "red"
-            border.color: "black"
-            border.width: width / 10
-            SequentialAnimation {
-                id: lightningCan
-                PropertyAnimation{target: buttonCancel; property: "color"; to: "orange"; duration: 100}
-                PropertyAnimation{target: buttonCancel; property: "color"; to: "red"; duration: 100}
-            }
-            Label{
-                anchors.fill: parent
-                horizontalAlignment: Label.AlignHCenter
-                verticalAlignment: Label.AlignVCenter
-                font.pixelSize: 20
-                font.bold: true
-                text: "Cancel"
-            }
-            MouseArea{
-                anchors.fill: parent
-                onClicked: {
-                    cancelAutoExe()
-                }
-            }
-        }
-        Rectangle{
-            id: buttonNegReward
-            width: 1.5 * parent.cellSize / 3
-            height: width
-            radius: width/2
-            color: "red"
-            border.color: "black"
-            border.width: width / 10
-            Label{
-                anchors.fill: parent
-                horizontalAlignment: Label.AlignHCenter
-                verticalAlignment: Label.AlignVCenter
-                font.pixelSize: 80
-                font.bold: true
-                text: "-"
-            }
-            SequentialAnimation {
-                id: lightningNeg
-                PropertyAnimation{target: buttonNegReward; property: "color"; to: "orange"; duration: 100}
-                PropertyAnimation{target: buttonNegReward; property: "color"; to: "red"; duration: 100}
-            }
-            MouseArea{
-                anchors.fill: parent
-                onClicked: {
-                    //eventPublisher.text = "sup_neg_rew"
-
-                    rewardPublisher.updateList()
-                    rewardPublisher.reward = false
-                    rewardPublisher.publish()
-                    lightningNeg.start()
-                }
-            }
-        }
-        Rectangle{
-            id: buttonPosReward
-            width: 1.5 * parent.cellSize / 3
-            height: width
-            radius: width/2
-            color: "green"
-            border.color: "black"
-            border.width: width / 10
-            Label{
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter
-                horizontalAlignment: Label.AlignHCenter
-                verticalAlignment: Label.AlignVCenter
-                font.pixelSize: 60
-                font.bold: true
-                text: "+"
-            }
-            SequentialAnimation {
-                id: lightningPos
-                PropertyAnimation{target: buttonPosReward; property: "color"; to: "lime"; duration: 100}
-                PropertyAnimation{target: buttonPosReward; property: "color"; to: "green"; duration: 100}
-
-            }
-            MouseArea{
-                anchors.fill: parent
-                onClicked: {
-                    //eventPublisher.text = "sup_pos_rew"
-                    lightningPos.start()
-                    rewardPublisher.updateList()
-                    rewardPublisher.reward = true
-                    rewardPublisher.publish()
-                }
-            }
-        }
-
-    }
-
-    Timer {
-        id: autoExe
-        interval: 3000; running: false; repeat: false
-        onTriggered:{actionPublisher.executeAction()}
-    }
 
     RosActionPublisher {
         id: actionPublisher
@@ -227,27 +37,13 @@ Window {
         origin: zoo
         type: "move"
         topic: "sparc/selected_action"
-        function updateList(){
-            strings.splice(0,strings.length)
-            for(var i=0;i<selectedItems.length;i++){
-                strings.push(selectedItems[i])
-            }
-        }
         function prepareMove(listener, dragger, name){
-            updateList()
             origin = listener
             target = dragger
             frame = name
             type = "move"
         }
         function executeAction(){
-            if(type == "move")
-                for (var i = 0; i < characters.children.length; i++)
-                    if(characters.children[i].name === frame){
-                        characters.children[i].hideArrow()
-                        break
-                    }
-
             publish()
         }
         function makeMove(listener, dragger, name){
@@ -256,44 +52,10 @@ Window {
         }
     }
 
-    RosActionPublisher {
-        id: actionCanceller
-        pixelscale: zoo.pixel2meter
-        target: zoo
-        frame: "sandtray"
-        origin: zoo
-        topic: "sparc/cancelled_action"
-        type: "move"
-        function updateList(){
-            strings.splice(0,strings.length)
-            for(var i=0;i<selectedItems.length;i++){
-                strings.push(selectedItems[i])
-            }
-        }
-        function cancelAction(){
-            updateList()
-            target = actionPublisher.target
-            frame = actionPublisher.frame
-            origin = actionPublisher.origin
-            type = actionPublisher.type
-            console.log(target.name)
-            console.log(target.x)
-            console.log(origin.x)
-            publish()
-        }
-    }
-
-
     Item {
         id: zoo
 
         anchors.fill: parent
-       /* anchors.left: eventDisplay.right
-        anchors.top: parent.top
-        width: 2*parent.width/3
-        height: 2*parent.height/3
-*/
-        //property double physicalMapWidth: 553 //mm (desktop acer monitor)
         property double physicalMapWidth: 600 //mm (sandtray)
         property double physicalCubeSize: 30 //mm
         property double pixel2meter: (physicalMapWidth / 1000) / parent.width
@@ -304,10 +66,7 @@ Window {
         Image {
             id: map
             fillMode: Image.PreserveAspectFit
-            height: parent.height
-            width: parent.width * 0.88
-            anchors.left: parent.left
-            anchors.top: parent.top
+            anchors.fill: parent
             source: "image://rosimage/sandbox/image"
             cache: false
             Timer {
@@ -317,7 +76,7 @@ Window {
                 running: true
                 onTriggered: {
                     map.source = "";
-                    map.source = "image://rosimage/sandbox/image";
+                    map.source = "image://rosimage/sandtray/background/image";
                     interval = 5000
                 }
             }
@@ -330,156 +89,6 @@ Window {
                 rotation: map.rotation
                 x: map.x + (map.width - map.paintedWidth)/2
                 y: map.y + (map.height - map.paintedHeight)/2
-            }
-        }
-        Rectangle {
-            id: stash
-            color: "black"
-            height: map.height
-            width: parent.width - map.width
-            anchors.left: map.right
-            anchors.top: map.top
-
-            Rectangle {
-               height: parent.height
-                width: 5
-                anchors.left: parent.left
-                anchors.top: parent.top
-                color: "#555"
-
-            }
-        }
-
-        Rectangle{
-            id: rewardDisplay
-            anchors.fill: parent
-            opacity: 0.
-            color: "green"
-            SequentialAnimation {
-                id: showNegReward
-                PropertyAnimation{target: rewardDisplay; property: "opacity"; to: .5; duration: 100}
-                PropertyAnimation{target: rewardDisplay; property: "opacity"; to: 0; duration: 100}
-            }
-        }
-
-/*
-        TFListener {
-            id: robotArmReach
-            x: window.width/2
-            y: window.height/2
-            z:100
-
-            visible: zoo.showRobotChild
-
-            frame: "arm_reach"
-            origin: mapOrigin
-            parentframe: mapOrigin.name
-            pixelscale: zoo.pixel2meter
-
-            Rectangle {
-                anchors.centerIn: parent
-                width: 10
-                height: width
-                radius: width/2
-                color: "red"
-            }
-
-            Rectangle {
-                anchors.centerIn: parent
-                width: parent.zvalue * 2 / zoo.pixel2meter
-                height: width
-                radius: width/2
-                color: "#55FFAA44"
-            }
-        }
-*/
-        Item {
-            id: robotFocus
-            x: window.width/2
-            y: window.height/2
-            z:100
-
-            Rectangle {
-                anchors.centerIn: parent
-                width:30
-                height: width
-                radius: width/2
-                color: "#FF3333"
-
-                Drag.active: robotFocusDragArea.drag.active
-
-                MouseArea {
-                    id: robotFocusDragArea
-                    anchors.fill: parent
-                    drag.target: robotFocus
-                }
-
-                visible: zoo.showRobotChild
-
-                TFBroadcaster {
-                    active: parent.visible
-                    target: parent
-                    frame: "robot_focus"
-
-                    origin: mapOrigin
-                    parentframe: mapOrigin.name
-
-                    pixelscale: zoo.pixel2meter
-                }
-            }
-        }
-
-        Item {
-            id: childFocus
-            x: window.width/2
-            y: window.height/2
-            z:100
-
-            Rectangle {
-                anchors.centerIn: parent
-                width:30
-                height: width
-                radius: width/2
-                color: "#995500"
-
-                Drag.active: childFocusDragArea.drag.active
-
-                MouseArea {
-                    id: childFocusDragArea
-                    anchors.fill: parent
-                    drag.target: childFocus
-                }
-                visible: zoo.publishRobotChild
-
-            }
-        }
-
-        RosPoseSubscriber {
-            id: gazeFocus
-            x: window.width/2
-            y: window.height/2
-            z:100
-
-            visible: false
-
-            topic: "/gazepose_0"
-            origin: mapOrigin
-            pixelscale: zoo.pixel2meter
-
-            Rectangle {
-                anchors.centerIn: parent
-                width: 10
-                height: width
-                radius: width/2
-                color: "red"
-            }
-            Rectangle {
-                anchors.centerIn: parent
-                width: parent.zvalue * 2 / zoo.pixel2meter
-                height: width
-                radius: width/2
-                color: "transparent"
-                border.color: "orange"
             }
         }
 
@@ -544,41 +153,6 @@ Window {
             }
         }
     }
-/*
-    MouseArea {
-        width:30
-        height:width
-        z: 100
-
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-
-        //Rectangle {
-        //    anchors.fill: parent
-        //    color: "red"
-        //}
-
-        property int clicks: 0
-
-        onClicked: {
-            clicks += 1;
-            if (clicks === 3) {
-                debugToolbar.visible=true;
-                clicks = 0;
-                timerHideDebug.start();
-            }
-        }
-
-        Timer {
-            id: timerHideDebug
-            interval: 5000; running: false; repeat: false
-            onTriggered: {
-                debugToolbar.visible = false;
-            }
-
-        }
-    }
-*/
 
     function releaseRobot(item){
         robot_hand.visible = false
@@ -626,100 +200,6 @@ Window {
 
                 component.createObject(characters,{"name":str[i],"image":image,"scale":scale})
             }
-        }
-    }
-
-    RosRewardPublisher{
-        id: rewardPublisher
-        topic: "sparc/sup_reward"
-        reward: false
-        function updateList(){
-            strings.splice(0,strings.length)
-            for(var i=0;i<selectedItems.length;i++){
-                strings.push(selectedItems[i])
-            }
-        }
-    }
-
-    RosActionSubscriber {
-        id: actionSubscriber
-        pixelscale: zoo.pixel2meter
-        origin: mapOrigin
-        topic: "sparc/proposed_action"
-
-        onActionReceived:{
-            if(type == "move"){
-                for (var i = 0;i<strings.length;i++){
-                    for (var j = 0; j < characters.children.length; j++){
-                        if(characters.children[j].name === strings[i]){
-                            characters.children[j].select()
-                            continue
-                        }
-                    }
-                }
-
-                for (var j = 0; j < characters.children.length; j++){
-                    if(characters.children[j].name === frame){
-                        characters.children[j].setDraggerPose(x,y,z)
-                    }
-                    if(strings.indexOf(characters.children[j].name)>-1){
-                        characters.children[j].selected = true
-                    }
-                }
-            }
-        }
-    }
-    RosListFloatSubscriber{
-        id: lifeSubscriber
-        topic: "sparc/partial_state"
-        onListChanged:{
-            for (var j = 0; j < characters.children.length; j++)
-                characters.children[j].life = list[j]
-
-        }
-    }
-
-    function addEvent(str){
-        eventModel.append({"name":str})
-    }
-
-    function resetSelectedStates(){
-        statePanel.reset()
-    }
-    function resetSelectedItems(){
-        for (var j = 0; j < characters.children.length; j++)
-            characters.children[j].selected = false
-    }
-
-    function addSelectedItem(name){
-        selectedItems.push(name)
-    }
-    function removeSelectedItem(name){
-        var index = selectedItems.indexOf(name)
-        if (index>-1){
-            selectedItems.splice(index,1)
-        }
-    }
-    function showReward(type){
-        if (type === "pos"){
-            rewardDisplay.color = "green"
-            showNegReward.start()
-        }
-        if (type === "neg"){
-            rewardDisplay.color = "red"
-            showNegReward.start()
-        }
-    }
-    function cancelAutoExe(){
-        autoExe.stop()
-        actionCanceller.cancelAction()
-        eventPublisher.text = "sup_act_cancel"
-
-        if(actionPublisher.type === "move"){
-            for (var i = 0; i < characters.children.length; i++)
-                if(characters.children[i].name === actionPublisher.frame){
-                    characters.children[i].cancelMove()
-                }
         }
     }
 }

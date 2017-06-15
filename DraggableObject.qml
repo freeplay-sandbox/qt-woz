@@ -12,10 +12,8 @@ Object {
             onPressed: parent.dragged = true
             onReleased: {
                 if(dist(dragger, listener)<10){
-                    click()
                 }
                 else{
-                    //arrow.start()
                     actionPublisher.makeMove(listener, dragger, parent.name)
                 }
             }
