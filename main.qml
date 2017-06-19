@@ -67,7 +67,7 @@ Window {
             id: map
             fillMode: Image.PreserveAspectFit
             anchors.fill: parent
-            source: "image://rosimage/sandbox/image"
+            source: "image://rosimage/sandtray/background/image"
             cache: false
             Timer {
                 id: imageLoader
