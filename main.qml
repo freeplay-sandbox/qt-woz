@@ -648,6 +648,8 @@ Window {
         topic: "sparc/proposed_action"
 
         onActionReceived:{
+            if(selectedItems.length != 0)
+                return
             if(type == "move"){
                 for (var i = 0;i<strings.length;i++){
                     for (var j = 0; j < characters.children.length; j++){
@@ -689,12 +691,15 @@ Window {
     function resetSelectedItems(){
         for (var j = 0; j < characters.children.length; j++)
             characters.children[j].selected = false
+
     }
 
     function addSelectedItem(name){
+        autoExe.stop()
         selectedItems.push(name)
     }
     function removeSelectedItem(name){
+        autoExe.stop()
         var index = selectedItems.indexOf(name)
         if (index>-1){
             selectedItems.splice(index,1)
@@ -721,5 +726,7 @@ Window {
                     characters.children[i].cancelMove()
                 }
         }
+
+        resetSelectedItems()
     }
 }

@@ -20,7 +20,7 @@ Object {
         MouseArea {
             id: selectArea
             anchors.fill: parent
-            onReleased: {
+            onPressed: {
                 click()
             }
         }

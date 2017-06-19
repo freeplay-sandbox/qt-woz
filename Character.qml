@@ -1,11 +1,13 @@
 import QtQuick 2.0
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
 import Ros 1.0
 
 Item {
     id: character
     property double scale: 1.0
     property double bbScale: 1.0
-    width: scale * 2 * parent.parent.height * zoo.physicalCubeSize / zoo.physicalMapWidth
+    width: scale * 4 * parent.parent.height * zoo.physicalCubeSize / zoo.physicalMapWidth
     x: 0
     y: 0
     rotation: 0
@@ -76,7 +78,7 @@ Item {
         id: arrow
         origin: listener
         end: dragger
-        duration: 2000
+        duration: 1000
         color: "red"
     }
 

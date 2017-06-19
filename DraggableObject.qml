@@ -5,14 +5,20 @@ Object {
         id:draggableObject
         opacity: 0.8
         property bool dragged: false
+        property bool wasSelected: false
         MouseArea {
             id: dragArea
             anchors.fill: parent
             drag.target: parent
-            onPressed: parent.dragged = true
+            onPressed: {
+                wasSelected = character.selected
+                character.select()
+                dragged = true
+            }
             onReleased: {
-                if(dist(dragger, listener)<10){
-                    click()
+                if(dist(dragger, listener)<20){
+                    resetGhost()
+                    character.selected = !wasSelected
                 }
                 else{
                     //arrow.start()
