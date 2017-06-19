@@ -1,4 +1,4 @@
-import QtQuick 2.2
+import QtQuick 2.7
 import QtQuick.Window 2.2
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 1.4
@@ -308,7 +308,7 @@ Window {
             width: parent.width * 0.88
             anchors.left: parent.left
             anchors.top: parent.top
-            source: "image://rosimage/sandbox/image"
+            source: "image://rosimage/sandtray/background/image"
             cache: false
             Timer {
                 id: imageLoader
@@ -317,7 +317,7 @@ Window {
                 running: true
                 onTriggered: {
                     map.source = "";
-                    map.source = "image://rosimage/sandbox/image";
+                    map.source = "image://rosimage/sandtray/background/image";
                     interval = 5000
                 }
             }
