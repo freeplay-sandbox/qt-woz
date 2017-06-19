@@ -518,8 +518,27 @@ Window {
             onTextChanged: {
                 var str = text;
                 addEvent(str);
-                if(str.startsWith("releasing_"))
-                   releaseRobot(str.replace("releasing_",""));
+                var list = str.split("_")
+
+                if(list[0] === "robotreleasing")
+                   releaseRobot(list[1]);
+
+                if(list[0] === "characters"){
+                    for(var i=1;i<list.length;i++){
+                        console.log("received "+list[i])
+                        var component = Qt.createComponent("Character.qml")
+                        component.createObject(characters,{"name":list[i],"image":"/res/"+list[i]+".png"})
+                        }
+                }
+
+                if(list[0] === "targets"){
+                    for(var i=1;i<list.length;i++){
+                        console.log("received "+list[i])
+                        var component = Qt.createComponent("StaticImage.qml")
+                        component.createObject(targets,{"name":list[i],"image":"/res/"+list[i]+".png"})
+                        }
+                }
+
             }
         }
 
@@ -531,6 +550,9 @@ Window {
         Item {
             id: characters
         }
+        Item {
+            id: targets
+        }
 
         TFListener {
             id: frameManager
@@ -540,7 +562,7 @@ Window {
             id: populate
             interval: 1000; running: true; repeat: false
             onTriggered: {
-                checkFrames();
+                eventPublisher.text = "supervisor_ready"
             }
         }
     }
@@ -587,46 +609,6 @@ Window {
             if(characters.children[i].name === item){
                 characters.children[i].resetGhost()
             }
-    }
-
-    function checkFrames(){
-        var str = frameManager.getAllFrames();
-        for (var i = 0; i<str.length;i++){
-            var found = false;
-            for (var j = 0; j < characters.children.length; j++)
-                if(characters.children[j].name === str[i]){
-                    found = true;
-                    break;
-                }
-            if(!found){
-                if(!(str[i] === "ball" || str[i] === "boy" || str[i] === "girl" || str[i] === "caravan" || str[i] === "rocket" || str[i]==="alternaterocket" ||
-                     str[i] === "elephant" || str[i] === "zebra" || str[i] === "crocodile" || str[i] === "lion" || str[i] === "giraffe" || str[i] === "hippo" || str[i] === "rhino"))
-                    continue
-                var image
-                var scale = 1
-                if(str[i] === "elephant" || str[i] === "giraffe" || str[i] === "hippo" || str[i] === "rhino")
-                    scale = 1.5
-                if(str[i] === "ball")
-                    scale = 0.7
-                if(str[i] === "caravan")
-                    scale = 2.5
-
-                if(str[i].startsWith("cube"))
-                    image = "/res/cube.svg"
-                else{
-                    if(str[i] === "ball" || str[i] === "boy" || str[i] === "girl" || str[i] === "caravan" || str[i] === "rocket" || str[i]==="alternaterocket")
-                        image = "/res/"+str[i]+".svg"
-                    else
-                        image = "/res/"+str[i]+".png"
-                }
-                if(str[i]==="rocket" || str[i]==="alternaterocket")
-                    var component = Qt.createComponent("StaticImage.qml")
-                else
-                    var component = Qt.createComponent("Character.qml")
-
-                component.createObject(characters,{"name":str[i],"image":image,"scale":scale})
-            }
-        }
     }
 
     RosRewardPublisher{
