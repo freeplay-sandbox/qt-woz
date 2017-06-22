@@ -5,33 +5,12 @@
         <file>Object.qml</file>
         <file>StaticImage.qml</file>
         <file>res/nao_hand.svg</file>
-        <file>res/nao_head.svg</file>
         <file>res/tags/markers.svg</file>
         <file>DraggableObject.qml</file>
         <file>ListenerObject.qml</file>
-        <file>res/crocodile.png</file>
-        <file>res/elephant.png</file>
-        <file>res/giraffe.png</file>
-        <file>res/hippo.png</file>
-        <file>res/leopard.png</file>
-        <file>res/lion.png</file>
-        <file>res/rhino.png</file>
-        <file>res/rocket.svg</file>
-        <file>res/zebra.png</file>
         <file>StateViewer.qml</file>
         <file>ActionViewer.qml</file>
         <file>AnimatedArrow.qml</file>
-        <file>res/girl.svg</file>
-        <file>res/caravan.svg</file>
-        <file>res/boy.svg</file>
-        <file>res/ball.svg</file>
         <file>Character.qml</file>
-        <file>res/alternaterocket.svg</file>
-        <file>res/steak.png</file>
-        <file>res/horse.png</file>
-        <file>res/hay.png</file>
-        <file>res/dog.png</file>
-        <file>res/cow.png</file>
-        <file>res/cat.png</file>
     </qresource>
 </RCC>
