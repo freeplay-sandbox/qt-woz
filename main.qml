@@ -29,19 +29,17 @@ Window {
     color: "white"
     title: qsTr("Zoo GUI")
 
-    RosActionPublisher {
+    RosPosePublisher {
         id: actionPublisher
         pixelscale: zoo.pixel2meter
         target: zoo
         frame: "sandtray"
         origin: zoo
-        type: "move"
         topic: "sparc/selected_action"
         function prepareMove(listener, dragger, name){
             origin = listener
             target = dragger
             frame = name
-            type = "move"
         }
         function executeAction(){
             publish()
