@@ -5,9 +5,9 @@ import Ros 1.0
 
 Item {
     id: character
-    property double scale: 1.0
+    property double scale: 2.0
     property double bbScale: 1.0
-    width: scale * 4 * parent.parent.height * zoo.physicalCubeSize / zoo.physicalMapWidth
+    width: scale * parent.parent.height * zoo.physicalCubeSize / zoo.physicalMapWidth
     x: 0
     y: 0
     rotation: 0
