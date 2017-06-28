@@ -109,12 +109,19 @@ Window {
             width: parent.cellSize
             height: parent.height/2
             text: "button 2"
+            onClicked: {
+                showReward("pos")
+            }
         }
         Button{
             width: parent.cellSize
             height: parent.height/2
             text: "button 3"
+            onClicked: {
+                showReward("neg")
+            }
         }
+        //Cancel button might not be needed (just send negative reward to suggestion)
         Rectangle{
             id: buttonCancel
             width: 1.5 * parent.cellSize / 3
