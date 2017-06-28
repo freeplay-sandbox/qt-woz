@@ -118,7 +118,6 @@ Item {
         NumberAnimation on progress { id:pathAnimation; running:false; from: 0; to: 1; duration: arrow.duration }
 
         onProgressChanged: {
-            console.log(pathInterpolate.progress)
             if(progress>0.0001)
                 canvas.addPoint(pathInterpolate.x, pathInterpolate.y, pathInterpolate.angle);
         }
