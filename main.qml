@@ -312,7 +312,7 @@ Window {
             id: map
             fillMode: Image.PreserveAspectFit
             height: parent.height
-            width: parent.width * 0.88
+            width: parent.width
             anchors.left: parent.left
             anchors.top: parent.top
             source: "image://rosimage/sandtray/background/image"
@@ -343,9 +343,10 @@ Window {
             id: stash
             color: "black"
             height: map.height
-            width: parent.width - map.width
-            anchors.left: map.right
+            width: parent.width *.12
+            anchors.right: parent.right
             anchors.top: map.top
+            visible: false
 
             Rectangle {
                height: parent.height
