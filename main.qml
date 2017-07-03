@@ -533,9 +533,9 @@ Window {
 
                 if(list[0] === "characters"){
                     for(var i=1;i<list.length;i++){
-                        console.log("received "+list[i])
                         var component = Qt.createComponent("Character.qml")
-                        component.createObject(characters,{"name":list[i],"image":"/res/"+list[i]+".png"})
+                        var param = list[i].split("-")
+                        component.createObject(characters,{"name":param[0], "scale":param[1],"image":"/res/"+param[0]+".png"})
                         }
                 }
 
@@ -543,7 +543,8 @@ Window {
                     for(var i=1;i<list.length;i++){
                         console.log("received "+list[i])
                         var component = Qt.createComponent("StaticImage.qml")
-                        component.createObject(targets,{"name":list[i],"image":"/res/"+list[i]+".png"})
+                        var param = list[i].split("-")
+                        component.createObject(targets,{"name":param[0], "scale":param[1],"image":"/res/"+param[0]+".png"})
                         }
                 }
 
