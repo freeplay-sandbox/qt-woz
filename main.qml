@@ -90,6 +90,11 @@ Window {
             }
         }
 
+        RosSignal {
+            topic: "sandtray/signals/start_items_placement";
+            onTriggered: populate.start()
+        }
+
         RosPoseSubscriber {
             id: rostouch
             x: childFocus.x
