@@ -35,7 +35,7 @@ Window {
         target: zoo
         frame: "sandtray"
         origin: zoo
-        topic: "sparc/selected_action"
+        topic: "woz/selected_action"
         function prepareMove(listener, dragger, name){
             origin = listener
             target = dragger
