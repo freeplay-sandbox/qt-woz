@@ -527,24 +527,23 @@ Window {
                 var str = text;
                 addEvent(str);
                 var list = str.split("_")
-
                 if(list[0] === "robotreleasing")
                    releaseRobot(list[1]);
 
                 if(list[0] === "characters"){
                     for(var i=1;i<list.length;i++){
                         var component = Qt.createComponent("Character.qml")
-                        var param = list[i].split("-")
+                        var param = list[i].split(",")
                         component.createObject(characters,{"name":param[0], "scale":param[1],"image":"/res/"+param[0]+".png"})
                         }
                 }
 
                 if(list[0] === "targets"){
                     for(var i=1;i<list.length;i++){
-                        console.log("received "+list[i])
                         var component = Qt.createComponent("StaticImage.qml")
-                        var param = list[i].split("-")
-                        component.createObject(targets,{"name":param[0], "scale":param[1],"image":"/res/"+param[0]+".png"})
+                        var param = list[i].split(",")
+                        var type = param[0].split("-")[0]
+                        component.createObject(targets,{"name":param[0], "scale":param[1],"image":"/res/"+type+".png","z":-1})
                         }
                 }
 
