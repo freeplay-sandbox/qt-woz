@@ -45,11 +45,11 @@ Item {
         width: 1.1*Math.max(parent.width,parent.height)
         height: width
         color: "transparent"
-        border.color: "red"
+        border.color: "cyan"
         border.width: 5
         radius: width
-        x:listener.x
-        y:listener.y
+        anchors.horizontalCenter: listener.horizontalCenter
+        anchors.verticalCenter: listener.verticalCenter
         visible: selected
     }
 
