@@ -558,9 +558,11 @@ Window {
 
         Item {
             id: characters
+            z:1
         }
         Item {
             id: targets
+            z:0
         }
 
         TFListener {
