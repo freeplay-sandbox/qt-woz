@@ -8,17 +8,20 @@ Item {
     property var end: null
     property int duration: 2000
     property color color: "red"
+    z:10
+    visible: true
+
 
     // our bounding box must include (origin) and (end) and we
     // add an (arbitrary) 50px margin
-    x: Math.min(origin.x, end.x) - 50
-    y: Math.min(origin.y, end.y) - 50
-    width: Math.abs(end.x - origin.x) + 100
-    height: Math.abs(end.y - origin.y) + 100
+    x: Math.min(origin.x, end.x)
+    y: Math.min(origin.y, end.y)
+    width: Math.abs(end.x - origin.x) + 150
+    height: Math.abs(end.y - origin.y) + 150
 
     function start() {
-        pathAnimation.start();
         canvas.path = []
+        pathAnimation.start();
     }
 
     Canvas {
