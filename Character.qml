@@ -26,39 +26,18 @@ Item {
         property double bbScale: 1.0
         width: parent.width
 
-        x: 0.1 * parent.width + Math.random() * 0.8 * parent.width
-        y: 0.1 * parent.height + Math.random() * 0.8 * parent.height
-        rotation: -30 + Math.random() * 60
         onXChanged: testDifference()
         onYChanged: testDifference()
         onRotationChanged: testDifference()
     }
 
-    ProgressBar {
+    Lifebar {
         id: lifeSlider
-        anchors.bottom: listener.top
-        anchors.bottomMargin: listener.height/10
-        anchors.horizontalCenter: listener.horizontalCenter
-        width: listener.width
-        value: life
-        height: listener.height/10
+        ratio: life
+        enabled:false
 
-        style: ProgressBarStyle {
-            background: Rectangle {
-                radius: 2
-                color: "Crimson"
-                border.color: "black"
-                border.width: 1
-                implicitWidth: 200
-                implicitHeight: 24
-            }
-            progress: Rectangle {
-                color: "lime"
-                border.color: "black"
-                implicitWidth: 200
-                implicitHeight: 24
-            }
-        }
+        anchors.horizontalCenter: listener.horizontalCenter
+        anchors.verticalCenter: listener.verticalCenter
     }
 
     Rectangle{

@@ -27,5 +27,6 @@
         <file>res/corn.png</file>
         <file>res/butterfly.png</file>
         <file>res/bird.png</file>
+        <file>Lifebar.qml</file>
     </qresource>
 </RCC>
