@@ -10,7 +10,7 @@ Window {
     id: window
 
     visible: true
-    //visibility: Window.FullScreen
+    visibility: Window.FullScreen
     //width: Screen.width
     //height: Screen.height
     width:800
@@ -97,8 +97,8 @@ Window {
 
         RosPoseSubscriber {
             id: rostouch
-            x: childFocus.x
-            y: childFocus.y
+            x: 0
+            y: 0
 
             topic: "poses"
 
@@ -129,7 +129,7 @@ Window {
             topic: "sandtray/interaction_events"
             onTextChanged: {
                 var str = text;
-                addEvent(str);
+                //addEvent(str);
                 if(str.startsWith("releasing_"))
                    releaseRobot(str.replace("releasing_",""));
             }
@@ -159,7 +159,7 @@ Window {
 
     function releaseRobot(item){
         robot_hand.visible = false
-        resetSelectedItems()
+        //resetSelectedItems()
         for (var i = 0; i < characters.children.length; i++)
             if(characters.children[i].name === item){
                 characters.children[i].resetGhost()
