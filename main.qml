@@ -542,7 +542,7 @@ Window {
                 var str = text;
                 addEvent(str);
                 var list = str.split("_")
-                if(list[0] === "robotreleasing")
+                if(list[0] === "robotrelease")
                    releaseRobot(list[1]);
 
                 if(list[0] === "characters"){
