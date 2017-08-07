@@ -13,6 +13,8 @@ ProgressBar {
     property alias animation: blinkAnimation
     property double ratio: 1
     value: 1.0 - ratio
+    x:0
+    y:0
     z:-1
 
     style: ProgressBarStyle {
