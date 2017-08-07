@@ -545,21 +545,23 @@ Window {
                 if(list[0] === "robotrelease")
                    releaseRobot(list[1]);
 
-                if(list[0] === "characters"){
+                if(list[0] === "characters" && !characters.initialised){
                     for(var i=1;i<list.length;i++){
                         var component = Qt.createComponent("Character.qml")
                         var param = list[i].split(",")
                         component.createObject(characters,{"name":param[0], "scale":param[1],"image":"/res/"+param[0]+".png"})
                         }
+                    characters.initialised = true
                 }
 
-                if(list[0] === "targets"){
+                if(list[0] === "targets"&&!targets.initialised){
                     for(var i=1;i<list.length;i++){
                         var component = Qt.createComponent("StaticImage.qml")
                         var param = list[i].split(",")
                         var type = param[0].split("-")[0]
                         component.createObject(targets,{"name":param[0], "scale":param[1],"image":"/res/"+type+".png","z":-1})
                         }
+                    targets.initialised = true
                 }
 
             }
@@ -573,10 +575,12 @@ Window {
         Item {
             id: characters
             z:1
+            property bool initialised: false
         }
         Item {
             id: targets
             z:0
+            property bool initialised: false
         }
 
         TFListener {
