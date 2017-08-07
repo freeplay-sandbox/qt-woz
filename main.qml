@@ -563,6 +563,15 @@ Window {
                         }
                     targets.initialised = true
                 }
+                if(list[0] === "endround"){
+                    for (var i = 0; i < characters.children.length; i++){
+                        characters.children[i].selected = false
+                        characters.children[i].resetGhost()
+                    }
+                    for (var i = 0; i < targets.children.length; i++){
+                        targets.children[i].selected = false
+                    }
+                }
 
             }
         }
