@@ -693,7 +693,7 @@ Window {
     }
     RosListFloatSubscriber{
         id: lifeSubscriber
-        topic: "sparc/partial_state"
+        topic: "sparc/life"
         onListChanged:{
             for (var j = 0; j < characters.children.length; j++)
                 characters.children[j].life = list[j]
