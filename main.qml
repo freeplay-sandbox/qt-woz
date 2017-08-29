@@ -189,7 +189,7 @@ Window {
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
-                    //eventPublisher.text = "sup_neg_rew"
+                    //sandtrayEventPublisher.text = "sup_neg_rew"
 
                     rewardPublisher.updateList()
                     rewardPublisher.reward = false
@@ -224,7 +224,7 @@ Window {
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
-                    //eventPublisher.text = "sup_pos_rew"
+                    //sandtrayEventPublisher.text = "sup_pos_rew"
                     lightningPos.start()
                     rewardPublisher.updateList()
                     rewardPublisher.reward = true
@@ -577,7 +577,7 @@ Window {
         }
 
         RosStringPublisher {
-            id: eventPublisher
+            id: sandtrayEventPublisher
             topic: "sandtray/interaction_events"
         }
 
@@ -600,7 +600,7 @@ Window {
             id: populate
             interval: 1000; running: true; repeat: false
             onTriggered: {
-                eventPublisher.text = "supervisor_ready"
+                sandtrayEventPublisher.text = "supervisor_ready"
             }
         }
     }
@@ -738,7 +738,7 @@ Window {
     function cancelAutoExe(){
         autoExe.stop()
         actionCanceller.cancelAction()
-        eventPublisher.text = "sup_act_cancel"
+        sandtrayEventPublisher.text = "sup_act_cancel"
 
         if(actionPublisher.type === "move"){
             for (var i = 0; i < characters.children.length; i++)
