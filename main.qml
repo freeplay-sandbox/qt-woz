@@ -263,6 +263,34 @@ Window {
 
     }
 
+    Rectangle {
+        id: infoDisplay
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        width: parent.width/3
+        height: parent.height/8
+        color: "AliceBlue"
+        border.color: "black"
+        border.width: width/100
+        radius: width / 10
+        visible: true
+        opacity: 0
+        z: 5
+        Label {
+            id: informationText
+            font.pixelSize: 30
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            horizontalAlignment: Text.AlignHCenter
+            text: ""
+        }
+        SequentialAnimation {
+            id:showInfoDisplay
+            PropertyAnimation{target: infoDisplay; property: "opacity"; to: 1; duration: 100}
+            PropertyAnimation{target: infoDisplay; property: "opacity"; to: 0; duration: 3000}
+        }
+    }
+
     Timer {
         id: autoExe
         interval: 3000; running: false; repeat: false
