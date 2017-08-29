@@ -191,6 +191,25 @@ Window {
                 }
             }
         }
+        Button{
+            width: parent.cellSize
+            height: parent.height/2
+            text: "Draw attention"
+            visible: true
+            onClicked: {
+                if(selectedItems.length > 1){
+                    informationText.text="Only one item can be selected."
+                    showInfoDisplay.start()
+                }
+                else if(selectedItems.length < 1){
+                    informationText.text="Select one item."
+                    showInfoDisplay.start()
+                }
+                else {
+                    actionPublisher.drawAttention()
+                }
+            }
+        }
         Rectangle{
             id: buttonNegReward
             width: 1.5 * parent.cellSize / 3
@@ -330,6 +349,18 @@ Window {
         }
         function makeMove(listener, dragger, name){
             prepareMove(listener, dragger, name)
+            executeAction()
+        }
+        function prepareAttention(item){
+            updateList()
+            frame = item
+            type = "drawAtt"
+        }
+
+        function drawAttention(){
+            if(selectedItems.length !==1)
+                return
+            prepareAttention(selectedItems[0])
             executeAction()
         }
     }
@@ -749,6 +780,11 @@ Window {
                         characters.children[j].selected = true
                     }
                 }
+            }
+            if(type == "drawAtt"){
+                informationText.text="Drawing attention to "+ frame +"."
+                showInfoDisplay.start()
+                prepareAttention(frame)
             }
         }
     }
