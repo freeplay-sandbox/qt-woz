@@ -165,6 +165,15 @@ Window {
                 }
             }
         }
+        Button{
+            width: parent.cellSize
+            height: parent.height/2
+            text: "Select"
+            visible: true
+            onClicked: {
+                sparcEventPublisher.text = "select"
+            }
+        }
         Rectangle{
             id: buttonNegReward
             width: 1.5 * parent.cellSize / 3
@@ -579,6 +588,11 @@ Window {
         RosStringPublisher {
             id: sandtrayEventPublisher
             topic: "sandtray/interaction_events"
+        }
+
+        RosStringPublisher {
+            id: sparcEventPublisher
+            topic: "sparc/event"
         }
 
         Item {
