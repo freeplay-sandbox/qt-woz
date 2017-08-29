@@ -66,7 +66,7 @@ Window {
             id:  eventModel
         }
     }
-
+/*
     StateViewer{
         id: statePanel
         anchors.top:eventDisplay.bottom
@@ -82,7 +82,7 @@ Window {
         height: 20
         width:350
     }
-
+*/
     Grid{
         id:buttonPannel
         anchors.left: parent.left
@@ -102,13 +102,14 @@ Window {
             width: parent.cellSize
             height: parent.height/2
             text: "Reset Selected States"
-
+            visible: false
             onClicked: resetSelectedStates()
         }
         Button{
             width: parent.cellSize
             height: parent.height/2
             text: "button 2"
+            visible: false
             onClicked: {
                 showReward("pos")
             }
@@ -117,6 +118,7 @@ Window {
             width: parent.cellSize
             height: parent.height/2
             text: "button 3"
+            visible: false
             onClicked: {
                 showReward("neg")
             }
@@ -197,6 +199,7 @@ Window {
             color: "red"
             border.color: "black"
             border.width: width / 10
+            visible: false
             Label{
                 anchors.fill: parent
                 horizontalAlignment: Label.AlignHCenter
@@ -230,6 +233,7 @@ Window {
             color: "green"
             border.color: "black"
             border.width: width / 10
+            visible: false
             Label{
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
