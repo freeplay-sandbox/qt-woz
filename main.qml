@@ -760,18 +760,17 @@ Window {
         topic: "sparc/proposed_action"
 
         onActionReceived:{
-            if(selectedItems.length != 0)
-                return
-            if(type == "move"){
-                for (var i = 0;i<strings.length;i++){
-                    for (var j = 0; j < characters.children.length; j++){
-                        if(characters.children[j].name === strings[i]){
-                            characters.children[j].select()
-                            continue
-                        }
+            //if(selectedItems.length != 0)
+            //    return
+            for (var i = 0;i<strings.length;i++){
+                for (var j = 0; j < characters.children.length; j++){
+                    if(characters.children[j].name === strings[i]){
+                        characters.children[j].select()
+                        continue
                     }
                 }
-
+            }
+            if(type == "move"){
                 for (var j = 0; j < characters.children.length; j++){
                     if(characters.children[j].name === frame){
                         characters.children[j].setDraggerPose(x,y,z)
@@ -786,6 +785,7 @@ Window {
                 showInfoDisplay.start()
                 prepareAttention(frame)
             }
+            //autoExe.start()
         }
     }
     RosListFloatSubscriber{

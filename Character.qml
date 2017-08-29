@@ -106,7 +106,6 @@ Item {
         arrow.start()
         arrow.visible = true
         actionPublisher.prepareMove(listener, dragger, name)
-        autoExe.start()
     }
 
     function click(){
