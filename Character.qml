@@ -132,4 +132,10 @@ Item {
     function hideArrow(){
         arrow.visible = false
     }
+    function startArrow(){
+        arrow.origin = listener
+        arrow.end = dragger
+        arrow.start()
+        arrow.visible = true
+    }
 }
