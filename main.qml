@@ -570,7 +570,7 @@ Window {
             y: window.height/2
             z:100
 
-            visible: false
+            visible: true
 
             topic: "/gazepose_0"
             origin: mapOrigin
