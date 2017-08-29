@@ -174,6 +174,21 @@ Window {
                 sparcEventPublisher.text = "select"
             }
         }
+        Button{
+            width: parent.cellSize
+            height: parent.height/2
+            text: "Reset"
+            visible: true
+            onClicked: {
+                for (var i = 0; i < characters.children.length; i++){
+                    characters.children[i].selected = false
+                    characters.children[i].resetGhost()
+                }
+                for (var i = 0; i < targets.children.length; i++){
+                    targets.children[i].selected = false
+                }
+            }
+        }
         Rectangle{
             id: buttonNegReward
             width: 1.5 * parent.cellSize / 3
