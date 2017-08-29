@@ -21,7 +21,7 @@ Object {
                     character.selected = !wasSelected
                 }
                 else{
-                    //arrow.start()
+                    startArrow()
                     actionPublisher.makeMove(listener, dragger, parent.name)
                 }
             }
