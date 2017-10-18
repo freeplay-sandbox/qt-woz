@@ -672,6 +672,9 @@ Window {
                 if(list[0] === "robotrelease")
                    releaseRobot(list[1]);
 
+                if(list[0] === "stop")
+                    autoExe.stop()
+
                 if(list[0] === "characters" && !characters.initialised){
                     for(var i=1;i<list.length;i++){
                         var component = Qt.createComponent("Character.qml")
