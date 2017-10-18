@@ -91,13 +91,12 @@ Window {
         anchors.right: parent.right
         horizontalItemAlignment: Grid.AlignHCenter
         verticalItemAlignment: Grid.AlignVCenter
-        columns: 6
+        columns: 8
         columnSpacing: width/20
         leftPadding: columnSpacing
         rightPadding: columnSpacing
         z: 5
-        property int n: 6
-        property int cellSize: (width-(n+1)*columnSpacing)/n
+        property int cellSize: (width-(columns+1)*columnSpacing)/columns
         Button{
             width: parent.cellSize
             height: parent.height/2
@@ -155,16 +154,10 @@ Window {
         Button{
             width: parent.cellSize
             height: parent.height/2
-            text: "Reset"
+            text: "wait"
             visible: true
             onClicked: {
-                for (var i = 0; i < characters.children.length; i++){
-                    characters.children[i].selected = false
-                    characters.children[i].resetGhost()
-                }
-                for (var i = 0; i < targets.children.length; i++){
-                    targets.children[i].selected = false
-                }
+
             }
         }
         Button{
@@ -208,6 +201,33 @@ Window {
                 else {
                     actionPublisher.drawAttention()
                 }
+            }
+        }
+        Button{
+            width: parent.cellSize
+            height: parent.height/2
+            text: "Felicitation"
+            visible: true
+            onClicked: {
+                actionPublisher.felicitate()
+            }
+        }
+        Button{
+            width: parent.cellSize
+            height: parent.height/2
+            text: "Encouragement"
+            visible: true
+            onClicked: {
+                actionPublisher.encourage()
+            }
+        }
+        Button{
+            width: parent.cellSize
+            height: parent.height/2
+            text: "Remind Rules"
+            visible: true
+            onClicked: {
+                actionPublisher.remindRules()
             }
         }
         Rectangle{
@@ -354,7 +374,7 @@ Window {
         function prepareAttention(item){
             updateList()
             frame = item
-            type = "drawAtt"
+            type = "att"
         }
 
         function drawAttention(){
@@ -362,6 +382,26 @@ Window {
                 return
             prepareAttention(selectedItems[0])
             executeAction()
+        }
+
+        function felicitate() {
+            updateList()
+            type = "fel"
+            executeAction()
+        }
+
+        function encourage() {
+            updateList()
+            type = "enc"
+            executeAction()
+
+        }
+
+        function remindRules() {
+            updateList()
+            type = "rul"
+            executeAction()
+
         }
     }
 
@@ -783,7 +823,7 @@ Window {
             if(type == "drawAtt"){
                 informationText.text="Drawing attention to "+ frame +"."
                 showInfoDisplay.start()
-                prepareAttention(frame)
+                actionPublisher.prepareAttention(frame)
             }
             //autoExe.start()
         }
