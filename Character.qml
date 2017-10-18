@@ -17,6 +17,7 @@ Item {
     property string image: "res/cube.svg"
     property int epsilon: 20
     property bool selected: false
+
     ListenerObject {
         id: listener
 
@@ -75,6 +76,7 @@ Item {
         //origin: listener
         property double scale: 1.0
         property double bbScale: 1.0
+
         width: parent.width
       /*    onDraggedChanged: {
           if(dragged){

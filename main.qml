@@ -364,7 +364,6 @@ Window {
                         characters.children[i].hideArrow()
                         break
                     }
-
             publish()
         }
         function makeMove(listener, dragger, name){
@@ -661,6 +660,7 @@ Window {
                 robot_hand.visible=true;
             }
         }
+
 
         RosStringSubscriber {
             id: eventSubsriber
