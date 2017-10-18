@@ -31,6 +31,13 @@ Item {
         onRotationChanged: testDifference()
     }
 
+    onLifeChanged: {
+        if (life > 0)
+            visible = true
+        else
+            visible = false
+    }
+
     Lifebar {
         id: lifeSlider
         ratio: life
