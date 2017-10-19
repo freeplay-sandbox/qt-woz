@@ -16,7 +16,7 @@ Object {
                 dragged = true
             }
             onReleased: {
-                if(dist(dragger, listener)<20){
+                if(dist(dragger, listener)<5000){
                     resetGhost()
                     character.selected = !wasSelected
                 }
