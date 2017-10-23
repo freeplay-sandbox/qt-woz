@@ -29,5 +29,6 @@
         <file>Lifebar.qml</file>
         <file>res/rat.png</file>
         <file>res/apple.png</file>
+        <file>res/wheat.png</file>
     </qresource>
 </RCC>
