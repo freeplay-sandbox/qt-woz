@@ -83,7 +83,73 @@ Window {
         width:350
     }
 */
-    Grid{
+    //Cancel button might not be needed (just send negative reward to suggestion)
+    Rectangle{
+        id: buttonCancel
+        width: zoo.width / 20
+        height: width
+        radius: width/2
+        anchors.left: zoo.left
+        anchors.bottom: zoo.bottom
+        anchors.bottomMargin: zoo.height / 20
+        color: "red"
+        border.color: "black"
+        border.width: width / 10
+        z: 5
+        SequentialAnimation {
+            id: lightningCan
+            PropertyAnimation{target: buttonCancel; property: "color"; to: "orange"; duration: 100}
+            PropertyAnimation{target: buttonCancel; property: "color"; to: "red"; duration: 100}
+        }
+        Label{
+            anchors.fill: parent
+            horizontalAlignment: Label.AlignHCenter
+            verticalAlignment: Label.AlignVCenter
+            font.pixelSize: 20
+            font.bold: true
+            text: "Cancel"
+        }
+        MouseArea{
+            anchors.fill: parent
+            onClicked: {
+                cancelAutoExe()
+            }
+        }
+    }
+    Rectangle{
+        id: buttonDoIt
+        anchors.left: zoo.left
+        anchors.bottom: buttonCancel.top
+        anchors.bottomMargin: zoo.height / 20
+        width: zoo.width / 20
+        height: width
+        radius: width/2
+        z: 5
+        color: "limegreen"
+        border.color: "black"
+        border.width: width / 10
+        SequentialAnimation {
+            id: lightningDo
+            PropertyAnimation{target: buttonDoIt; property: "color"; to: "lime"; duration: 100}
+            PropertyAnimation{target: buttonDoIt; property: "color"; to: "limegreen"; duration: 100}
+        }
+        Label{
+            anchors.fill: parent
+            horizontalAlignment: Label.AlignHCenter
+            verticalAlignment: Label.AlignVCenter
+            font.pixelSize: 20
+            font.bold: true
+            text: "Do it"
+        }
+        MouseArea{
+            anchors.fill: parent
+            onClicked: {
+                autoExe.stop()
+                actionPublisher.executeAction()
+            }
+        }
+    }
+     Grid{
         id:buttonPannel
         anchors.left: parent.left
         anchors.bottom: parent.bottom
@@ -96,6 +162,7 @@ Window {
         leftPadding: columnSpacing
         rightPadding: columnSpacing
         z: 5
+        layoutDirection: Qt.RightToLeft
         property int cellSize: (width-(columns+1)*columnSpacing)/columns
         Button{
             width: parent.cellSize
@@ -120,35 +187,6 @@ Window {
             visible: false
             onClicked: {
                 showReward("neg")
-            }
-        }
-        //Cancel button might not be needed (just send negative reward to suggestion)
-        Rectangle{
-            id: buttonCancel
-            width: 1.5 * parent.cellSize / 3
-            height: width
-            radius: width/2
-            color: "red"
-            border.color: "black"
-            border.width: width / 10
-            SequentialAnimation {
-                id: lightningCan
-                PropertyAnimation{target: buttonCancel; property: "color"; to: "orange"; duration: 100}
-                PropertyAnimation{target: buttonCancel; property: "color"; to: "red"; duration: 100}
-            }
-            Label{
-                anchors.fill: parent
-                horizontalAlignment: Label.AlignHCenter
-                verticalAlignment: Label.AlignVCenter
-                font.pixelSize: 20
-                font.bold: true
-                text: "Cancel"
-            }
-            MouseArea{
-                anchors.fill: parent
-                onClicked: {
-                    cancelAutoExe()
-                }
             }
         }
         Button{
