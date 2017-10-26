@@ -861,7 +861,7 @@ Window {
                     }
                 }
             }
-            if(type == "drawAtt"){
+            if(type == "att"){
                 informationText.text="Drawing attention to "+ frame +"."
                 showInfoDisplay.start()
                 actionPublisher.prepareAttention(frame)
