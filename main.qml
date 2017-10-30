@@ -112,14 +112,50 @@ Window {
         MouseArea{
             anchors.fill: parent
             onClicked: {
+                lightningCan.start()
                 cancelAutoExe()
             }
         }
     }
+
+    Rectangle{
+        id: buttonWait
+        anchors.left: zoo.left
+        anchors.bottom: buttonCancel.top
+        anchors.bottomMargin: zoo.height / 20
+        width: zoo.width / 20
+        height: width
+        radius: width/2
+        z: 5
+        color: "orange"
+        border.color: "black"
+        border.width: width / 10
+        SequentialAnimation {
+            id: lightningWait
+            PropertyAnimation{target: buttonWait; property: "color"; to: "orange"; duration: 100}
+            PropertyAnimation{target: buttonWait; property: "color"; to: "gold"; duration: 100}
+        }
+        Label{
+            anchors.fill: parent
+            horizontalAlignment: Label.AlignHCenter
+            verticalAlignment: Label.AlignVCenter
+            font.pixelSize: 20
+            font.bold: true
+            text: "Wait"
+        }
+        MouseArea{
+            anchors.fill: parent
+            onClicked: {
+                lightningWait.start()
+                autoExe.stop()
+            }
+        }
+    }
+
     Rectangle{
         id: buttonDoIt
         anchors.left: zoo.left
-        anchors.bottom: buttonCancel.top
+        anchors.bottom: buttonWait.top
         anchors.bottomMargin: zoo.height / 20
         width: zoo.width / 20
         height: width
@@ -144,6 +180,7 @@ Window {
         MouseArea{
             anchors.fill: parent
             onClicked: {
+                lightningDo.start()
                 autoExe.stop()
                 actionPublisher.executeAction()
             }
@@ -187,15 +224,6 @@ Window {
             visible: false
             onClicked: {
                 showReward("neg")
-            }
-        }
-        Button{
-            width: parent.cellSize
-            height: parent.height/2
-            text: "wait"
-            visible: true
-            onClicked: {
-
             }
         }
         Button{
