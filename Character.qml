@@ -123,6 +123,7 @@ Item {
 
     function select(){
         selected = true
+        arrow.visible = false
     }
 
     onSelectedChanged: {
@@ -131,6 +132,7 @@ Item {
         }
         else{
             removeSelectedItem(name)
+            arrow.visible = false
         }
     }
     function cancelMove(){
