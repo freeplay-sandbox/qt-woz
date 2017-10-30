@@ -878,6 +878,12 @@ Window {
                         continue
                     }
                 }
+                for (var j = 0; j < targets.children.length; j++){
+                    if(targets.children[j].name === strings[i]){
+                        targets.children[j].select()
+                        continue
+                    }
+                }
             }
             if(type == "move"){
                 for (var j = 0; j < characters.children.length; j++){
