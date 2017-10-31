@@ -942,7 +942,8 @@ Window {
     function resetSelectedItems(){
         for (var j = 0; j < characters.children.length; j++)
             characters.children[j].selected = false
-
+        for (var j = 0; j < targets.children.length; j++)
+            targets.children[j].selected = false
     }
 
     function addSelectedItem(name){
