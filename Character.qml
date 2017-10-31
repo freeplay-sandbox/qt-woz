@@ -110,10 +110,7 @@ Item {
         dragger.x = listener.x + x*Math.cos(angle) - y*Math.sin(angle)
         dragger.y = listener.y + x*Math.sin(angle) + y*Math.cos(angle)
 
-        arrow.origin = listener
-        arrow.end = dragger
-        arrow.start()
-        arrow.visible = true
+        startArrow()
         actionPublisher.prepareMove(listener, dragger, name)
     }
 
@@ -146,6 +143,13 @@ Item {
         arrow.origin = listener
         arrow.end = dragger
         arrow.start()
-        arrow.visible = true
+        arrowTimer.start()
+    }
+    Timer{
+        id: arrowTimer
+        interval: 20;running: false; repeat: false
+        onTriggered: {
+            arrow.visible = true
+        }
     }
 }
