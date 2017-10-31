@@ -436,10 +436,17 @@ Window {
             prepareMove(listener, dragger, name)
             executeAction()
         }
+
         function prepareAttention(item){
             updateList()
             frame = item
             type = "att"
+        }
+
+        function prepareOther(typeAction){
+            updateList()
+            frame = "sandtray"
+            type = typeAction
         }
 
         function drawAttention(){
@@ -450,21 +457,18 @@ Window {
         }
 
         function felicitate() {
-            updateList()
-            type = "fel"
+            prepareOther("fel")
             executeAction()
         }
 
         function encourage() {
-            updateList()
-            type = "enc"
+            prepareOther("enc")
             executeAction()
 
         }
 
         function remindRules() {
-            updateList()
-            type = "rul"
+            prepareOther("rul")
             executeAction()
 
         }
@@ -899,6 +903,21 @@ Window {
                 informationText.text="Drawing attention to "+ frame +"."
                 showInfoDisplay.start()
                 actionPublisher.prepareAttention(frame)
+            }
+            if(type == "fel"){
+                informationText.text="Felicitation."
+                showInfoDisplay.start()
+                actionPublisher.prepareOther("fel")
+            }
+            if(type == "enc"){
+                informationText.text="Encouragement."
+                showInfoDisplay.start()
+                actionPublisher.prepareOther("enc")
+            }
+            if(type == "rul"){
+                informationText.text="Remind rules."
+                showInfoDisplay.start()
+                actionPublisher.prepareOther("rul")
             }
             //autoExe.start()
         }
