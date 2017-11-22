@@ -272,10 +272,10 @@ Window {
         Button{
             width: parent.cellSize
             height: parent.height/2
-            text: "Felicitation"
+            text: "Congratulations"
             visible: true
             onClicked: {
-                actionPublisher.felicitate()
+                actionPublisher.congratulate()
             }
         }
         Button{
@@ -408,7 +408,7 @@ Window {
         target: zoo
         frame: "sandtray"
         origin: zoo
-        type: "move"
+        type: "mv"
         topic: "sparc/selected_action"
         function updateList(){
             strings.splice(0,strings.length)
@@ -421,10 +421,10 @@ Window {
             origin = listener
             target = dragger
             frame = name
-            type = "move"
+            type = "mv"
         }
         function executeAction(){
-            if(type == "move")
+            if(type.startsWith("mv"))
                 for (var i = 0; i < characters.children.length; i++)
                     if(characters.children[i].name === frame){
                         characters.children[i].hideArrow()
@@ -456,13 +456,13 @@ Window {
             executeAction()
         }
 
-        function felicitate() {
-            prepareOther("fel")
+        function congratulate() {
+            prepareOther("congrats")
             executeAction()
         }
 
         function encourage() {
-            prepareOther("enc")
+            prepareOther("encour")
             executeAction()
 
         }
@@ -481,7 +481,7 @@ Window {
         frame: "sandtray"
         origin: zoo
         topic: "sparc/cancelled_action"
-        type: "move"
+        type: "mv"
         function updateList(){
             strings.splice(0,strings.length)
             for(var i=0;i<selectedItems.length;i++){
@@ -731,7 +731,6 @@ Window {
             }
         }
 
-
         RosStringSubscriber {
             id: eventSubsriber
             topic: "sandtray/interaction_events"
@@ -875,6 +874,7 @@ Window {
         onActionReceived:{
             //if(selectedItems.length != 0)
             //    return
+
             for (var i = 0;i<strings.length;i++){
                 for (var j = 0; j < characters.children.length; j++){
                     if(characters.children[j].name === strings[i]){
@@ -889,7 +889,7 @@ Window {
                     }
                 }
             }
-            if(type == "move"){
+            if(type.startsWith("mv")){
                 for (var j = 0; j < characters.children.length; j++){
                     if(characters.children[j].name === frame){
                         characters.children[j].setDraggerPose(x,y,z)
@@ -898,21 +898,29 @@ Window {
                         characters.children[j].selected = true
                     }
                 }
+                var direction = " to "
+                if(type.startsWith("mvc"))
+                    direction = " close to "
+                if(type.startsWith("mva"))
+                    direction = " away from "
+
+                informationText.text="Move "+ type.split("_")[1] + direction + type.split("_")[2]+"."
+                showInfoDisplay.start()
             }
             if(type == "att"){
                 informationText.text="Drawing attention to "+ frame +"."
                 showInfoDisplay.start()
                 actionPublisher.prepareAttention(frame)
             }
-            if(type == "fel"){
-                informationText.text="Felicitation."
+            if(type == "congrats"){
+                informationText.text="Congratulations."
                 showInfoDisplay.start()
-                actionPublisher.prepareOther("fel")
+                actionPublisher.prepareOther("congrats")
             }
-            if(type == "enc"){
+            if(type == "encour"){
                 informationText.text="Encouragement."
                 showInfoDisplay.start()
-                actionPublisher.prepareOther("enc")
+                actionPublisher.prepareOther("encour")
             }
             if(type == "rul"){
                 informationText.text="Remind rules."
@@ -972,13 +980,12 @@ Window {
         actionCanceller.cancelAction()
         sandtrayEventPublisher.text = "sup_act_cancel"
 
-        if(actionPublisher.type === "move"){
+        if(actionPublisher.type.startsWith("mv")){
             for (var i = 0; i < characters.children.length; i++)
                 if(characters.children[i].name === actionPublisher.frame){
                     characters.children[i].cancelMove()
                 }
         }
-
         resetSelectedItems()
     }
 }
