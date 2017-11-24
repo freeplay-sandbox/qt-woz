@@ -20,7 +20,6 @@ Item {
 
     ListenerObject {
         id: listener
-
         name: parent.name
         image: parent.image
         property double scale: 1.0
@@ -93,6 +92,7 @@ Item {
     }
 
     function testDifference(){
+        arrow.visible = false
         if (dragger.dragged){
             if (Math.abs(listener.x-dragger.x)< epsilon && Math.abs(listener.y-dragger.y) < epsilon)
                 dragger.dragged = false

@@ -148,6 +148,7 @@ Window {
             onClicked: {
                 lightningWait.start()
                 autoExe.stop()
+                resetSelectedItems()
             }
         }
     }
@@ -195,6 +196,7 @@ Window {
         horizontalItemAlignment: Grid.AlignHCenter
         verticalItemAlignment: Grid.AlignVCenter
         columns: 8
+        rows: 2
         columnSpacing: width/20
         leftPadding: columnSpacing
         rightPadding: columnSpacing
@@ -752,6 +754,13 @@ Window {
                     for (var i = 0; i < targets.children.length; i++){
                         targets.children[i].selected = false
                     }
+                }
+                if(list[0] === "animaldead"){
+                    for (var i = 0; i < characters.children.length; i++){
+                        if (characters.children[i].name === list[1])
+                            characters.children[i].selected=false
+                    }
+
                 }
 
             }
