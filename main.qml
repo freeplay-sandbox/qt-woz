@@ -410,6 +410,7 @@ Window {
         origin: zoo
         type: "mv"
         topic: "sparc/selected_action"
+        reward: 1
         function updateList(){
             strings.splice(0,strings.length)
             for(var i=0;i<selectedItems.length;i++){
@@ -430,6 +431,7 @@ Window {
                         characters.children[i].hideArrow()
                         break
                     }
+            reward = 1
             publish()
         }
         function makeMove(listener, dragger, name){
@@ -472,35 +474,15 @@ Window {
             executeAction()
 
         }
-    }
-
-    RosActionPublisher {
-        id: actionCanceller
-        pixelscale: zoo.pixel2meter
-        target: zoo
-        frame: "sandtray"
-        origin: zoo
-        topic: "sparc/cancelled_action"
-        type: "mv"
-        function updateList(){
-            strings.splice(0,strings.length)
-            for(var i=0;i<selectedItems.length;i++){
-                strings.push(selectedItems[i])
-            }
-        }
         function cancelAction(){
-            updateList()
-            target = actionPublisher.target
-            frame = actionPublisher.frame
-            origin = actionPublisher.origin
-            type = actionPublisher.type
-            console.log(target.name)
-            console.log(target.x)
-            console.log(origin.x)
+            reward = -1
+            publish()
+        }
+        function wait(){
+            reward = 0
             publish()
         }
     }
-
 
     Item {
         id: zoo
@@ -977,7 +959,7 @@ Window {
     }
     function cancelAutoExe(){
         autoExe.stop()
-        actionCanceller.cancelAction()
+        actionPublisher.cancelAction()
         sandtrayEventPublisher.text = "sup_act_cancel"
 
         if(actionPublisher.type.startsWith("mv")){
