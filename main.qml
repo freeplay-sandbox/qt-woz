@@ -113,7 +113,7 @@ Window {
             anchors.fill: parent
             onClicked: {
                 lightningCan.start()
-                cancelAutoExe()
+                cancelAction()
             }
         }
     }
@@ -147,8 +147,7 @@ Window {
             anchors.fill: parent
             onClicked: {
                 lightningWait.start()
-                autoExe.stop()
-                resetSelectedItems()
+                waitAction()
             }
         }
     }
@@ -940,8 +939,10 @@ Window {
         statePanel.reset()
     }
     function resetSelectedItems(){
-        for (var j = 0; j < characters.children.length; j++)
+        for (var j = 0; j < characters.children.length; j++){
             characters.children[j].selected = false
+            characters.children[j].resetGhost()
+        }
         for (var j = 0; j < targets.children.length; j++)
             targets.children[j].selected = false
     }
@@ -967,17 +968,16 @@ Window {
             showNegReward.start()
         }
     }
-    function cancelAutoExe(){
+    function cancelAction(){
         autoExe.stop()
         actionPublisher.cancelAction()
         sandtrayEventPublisher.text = "sup_act_cancel"
-
-        if(actionPublisher.type.startsWith("mv")){
-            for (var i = 0; i < characters.children.length; i++)
-                if(characters.children[i].name === actionPublisher.frame){
-                    characters.children[i].cancelMove()
-                }
-        }
+        resetSelectedItems()
+    }
+    function waitAction(){
+        autoExe.stop()
+        actionPublisher.wait()
+        sandtrayEventPublisher.text = "sup_act_wait"
         resetSelectedItems()
     }
 }

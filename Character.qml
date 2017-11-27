@@ -88,6 +88,7 @@ Item {
 
     function resetGhost(){
         dragger.dragged = false
+        arrow.visible = false
         testDifference()
     }
 
@@ -131,10 +132,6 @@ Item {
             removeSelectedItem(name)
             arrow.visible = false
         }
-    }
-    function cancelMove(){
-        arrow.visible = false
-        resetGhost()
     }
     function hideArrow(){
         arrow.visible = false
