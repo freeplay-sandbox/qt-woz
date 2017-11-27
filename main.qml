@@ -242,13 +242,8 @@ Window {
             text: "Reset"
             visible: true
             onClicked: {
-                for (var i = 0; i < characters.children.length; i++){
-                    characters.children[i].selected = false
-                    characters.children[i].resetGhost()
-                }
-                for (var i = 0; i < targets.children.length; i++){
-                    targets.children[i].selected = false
-                }
+                resetSelectedItems()
+                sandtrayEventPublisher.text="reset"
             }
         }
         Button{
@@ -399,7 +394,7 @@ Window {
 
     Timer {
         id: autoExe
-        interval: 3000; running: false; repeat: false
+        interval: 2000; running: false; repeat: false
         onTriggered:{actionPublisher.executeAction()}
     }
 
@@ -862,8 +857,8 @@ Window {
         topic: "sparc/proposed_action"
 
         onActionReceived:{
-            //if(selectedItems.length != 0)
-            //    return
+            if(selectedItems.length != 0)
+                return
 
             for (var i = 0;i<strings.length;i++){
                 for (var j = 0; j < characters.children.length; j++){
@@ -917,7 +912,7 @@ Window {
                 showInfoDisplay.start()
                 actionPublisher.prepareOther("rul")
             }
-            //autoExe.start()
+            autoExe.start()
         }
     }
     RosListFloatSubscriber{
