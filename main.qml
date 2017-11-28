@@ -379,7 +379,7 @@ Window {
         z: 5
         Label {
             id: informationText
-            font.pixelSize: 30
+            font.pixelSize: 35
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
             horizontalAlignment: Text.AlignHCenter
@@ -388,7 +388,9 @@ Window {
         SequentialAnimation {
             id:showInfoDisplay
             PropertyAnimation{target: infoDisplay; property: "opacity"; to: 1; duration: 100}
-            PropertyAnimation{target: infoDisplay; property: "opacity"; to: 0; duration: 3000}
+            PropertyAnimation{target: infoDisplay; property: "color"; to: "green"; duration: autoExe.interval-500}
+            PropertyAnimation{target: infoDisplay; property: "opacity"; to: 0; duration: 1000}
+            PropertyAnimation{target: infoDisplay; property: "color"; to: "AliceBlue"; duration: 1}
         }
     }
 
