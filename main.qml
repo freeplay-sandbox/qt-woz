@@ -423,12 +423,17 @@ Window {
             type = "mv"
         }
         function executeAction(){
-            if(type.startsWith("mv"))
+            if(type.startsWith("mv")){
                 for (var i = 0; i < characters.children.length; i++)
                     if(characters.children[i].name === frame){
                         characters.children[i].hideArrow()
                         break
                     }
+            }
+            else{
+                resetSelectedItems()
+            }
+
             reward = 1
             publish()
         }
