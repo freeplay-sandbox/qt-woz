@@ -492,7 +492,7 @@ Window {
         //property double physicalMapWidth: 553 //mm (desktop acer monitor)
         property double physicalMapWidth: 600 //mm (sandtray)
         property double physicalCubeSize: 30 //mm
-        property double pixel2meter: (physicalMapWidth / 1000) / parent.width
+        property double pixel2meter: (physicalMapWidth / 1000) / map.paintedWidth
 
         property bool showRobotChild: false
         property bool publishRobotChild: false
@@ -853,7 +853,7 @@ Window {
     RosActionSubscriber {
         id: actionSubscriber
         pixelscale: zoo.pixel2meter
-        origin: mapOrigin
+        origin: zoo
         topic: "sparc/proposed_action"
 
         onActionReceived:{
