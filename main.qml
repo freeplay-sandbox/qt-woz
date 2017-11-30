@@ -523,19 +523,8 @@ Window {
             width: parent.width
             anchors.left: parent.left
             anchors.top: parent.top
-            source: "image://rosimage/sandtray/background/image"
+            source: "res/map.svg"
             cache: false
-            Timer {
-                id: imageLoader
-                interval: 100
-                repeat: true
-                running: true
-                onTriggered: {
-                    map.source = "";
-                    map.source = "image://rosimage/sandtray/background/image";
-                    interval = 5000
-                }
-            }
 
             Item {
                 // this item sticks to the 'visual' origin of the map, taking into account
