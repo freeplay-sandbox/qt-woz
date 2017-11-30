@@ -197,7 +197,7 @@ Window {
             anchors.fill: parent
             onClicked: {
                 lightningDo.start()
-                autoExe.stop()
+                stopSuggestion()
                 actionPublisher.executeAction()
             }
         }
@@ -739,7 +739,7 @@ Window {
                    releaseRobot(list[1]);
 
                 if(list[0] === "stop")
-                    autoExe.stop()
+                    stopSuggestion()
 
                 if(list[0] === "characters" && !characters.initialised){
                     for(var i=1;i<list.length;i++){
@@ -963,12 +963,12 @@ Window {
     }
 
     function addSelectedItem(name){
-        autoExe.stop()
+        stopSuggestion()
         selectedItems.push(name)
         updateFocus()
     }
     function removeSelectedItem(name){
-        autoExe.stop()
+        stopSuggestion()
         var index = selectedItems.indexOf(name)
         if (index>-1){
             selectedItems.splice(index,1)
@@ -986,15 +986,19 @@ Window {
         }
     }
     function cancelAction(){
-        autoExe.stop()
+        stopSuggestion()
         actionPublisher.cancelAction()
         sandtrayEventPublisher.text = "sup_act_cancel"
         resetSelectedItems()
     }
     function waitAction(){
-        autoExe.stop()
+        stopSuggestion()
         actionPublisher.wait()
         sandtrayEventPublisher.text = "sup_act_wait"
         resetSelectedItems()
+    }
+    function stopSuggestion(){
+        autoExe.stop()
+        infoDisplay.opacity = 0
     }
 }
