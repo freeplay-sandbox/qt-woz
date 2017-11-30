@@ -20,6 +20,22 @@ Window {
     property int prevWidth:800
     property int prevHeight:600
     property var selectedItems: []
+    property string focusedItem: ""
+
+    function updateFocus() {
+        for (var i = 0; i < characters.children.length; i++)
+            if(characters.children[i].name === focusedItem)
+                characters.children[i].focused = false
+
+        if(selectedItems.length>0)
+            focusedItem=selectedItems[selectedItems.length-1]
+        else
+            focusedItem=""
+        console.log(focusedItem)
+        for (var i = 0; i < characters.children.length; i++)
+            if(characters.children[i].name === focusedItem)
+                characters.children[i].focused = true
+    }
 
     onWidthChanged: {
         prevWidth=width;
@@ -252,12 +268,8 @@ Window {
             text: "Draw attention"
             visible: true
             onClicked: {
-                if(selectedItems.length > 1){
-                    informationText.text="Only one item can be selected."
-                    showInfoDisplay.start()
-                }
-                else if(selectedItems.length < 1){
-                    informationText.text="Select one item."
+                if(focusedItem === ""){
+                    informationText.text="Please have an item focused"
                     showInfoDisplay.start()
                 }
                 else {
@@ -455,9 +467,9 @@ Window {
         }
 
         function drawAttention(){
-            if(selectedItems.length !==1)
+            if(focusedItem === "")
                 return
-            prepareAttention(selectedItems[0])
+            prepareAttention(focusedItem)
             executeAction()
         }
 
@@ -901,6 +913,7 @@ Window {
             }
             if(type == "att"){
                 informationText.text="Drawing attention to "+ frame +"."
+                focusedItem = frame
                 showInfoDisplay.start()
                 actionPublisher.prepareAttention(frame)
             }
@@ -952,6 +965,7 @@ Window {
     function addSelectedItem(name){
         autoExe.stop()
         selectedItems.push(name)
+        updateFocus()
     }
     function removeSelectedItem(name){
         autoExe.stop()
@@ -959,6 +973,7 @@ Window {
         if (index>-1){
             selectedItems.splice(index,1)
         }
+        updateFocus()
     }
     function showReward(type){
         if (type === "pos"){
