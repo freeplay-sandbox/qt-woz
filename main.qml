@@ -20,7 +20,15 @@ Window {
     property int prevWidth:800
     property int prevHeight:600
     property var selectedItems: []
+    property var initTime: 0
     property string focusedItem: ""
+    property string  qlogfilename: ""
+
+    Component.onCompleted: {
+        var d = new Date()
+        initTime = d.getTime()
+        qlogfilename = "foodchain-data/supervisor/" + d.toISOString().split(".")[0] + ".csv"
+    }
 
     function updateFocus() {
         for (var i = 0; i < characters.children.length; i++)
@@ -435,19 +443,25 @@ Window {
             type = "mv"
         }
         function executeAction(){
+            var tolog = "selected,"
             if(type.startsWith("mv")){
                 for (var i = 0; i < characters.children.length; i++)
                     if(characters.children[i].name === frame){
                         characters.children[i].hideArrow()
                         break
                     }
+                tolog = tolog+"mv_"+frame+"_"+Math.round(target.x)+"_"+Math.round(target.y)
             }
             else{
+                tolog = tolog + type
+                if(type == "att")
+                    tolog = tolog + "_"+frame
                 resetSelectedItems()
             }
-
-            reward = 1
+            tolog=tolog+","+reward
+            log(tolog)
             publish()
+            reward = 1
         }
         function makeMove(listener, dragger, name){
             prepareMove(listener, dragger, name)
@@ -491,11 +505,11 @@ Window {
         }
         function cancelAction(){
             reward = -1
-            publish()
+            executeAction()
         }
         function wait(){
             reward = 0
-            publish()
+            executeAction()
         }
     }
 
@@ -762,9 +776,12 @@ Window {
                         if (characters.children[i].name === list[1])
                             characters.children[i].selected=false
                     }
-
                 }
-
+                if(list[0] === "record"){
+                    var d = new Date()
+                    initTime = d.getTime()
+                    qlogfilename = "foodchain-data/supervisor/" + d.toISOString().split(".")[0] + ".csv"
+                }
             }
         }
 
@@ -868,6 +885,8 @@ Window {
             if(selectedItems.length != 0)
                 return
 
+            var tolog ="proposed,"
+
             for (var i = 0;i<strings.length;i++){
                 for (var j = 0; j < characters.children.length; j++){
                     if(characters.children[j].name === strings[i]){
@@ -883,9 +902,10 @@ Window {
                 }
             }
             if(type.startsWith("mv")){
+                var newPose
                 for (var j = 0; j < characters.children.length; j++){
                     if(characters.children[j].name === frame){
-                        characters.children[j].setDraggerPose(x,y,z)
+                        newPose = characters.children[j].setDraggerPose(x,y,z)
                     }
                     if(strings.indexOf(characters.children[j].name)>-1){
                         characters.children[j].selected = true
@@ -896,33 +916,39 @@ Window {
                     direction = " close to "
                 if(type.startsWith("mva"))
                     direction = " away from "
-
                 informationText.text="Move "+ type.split("_")[1] + direction + type.split("_")[2]+"."
                 showInfoDisplay.start()
+                tolog = tolog+"mv_"+frame+"_"+Math.round(newPose[0])+"_"+Math.round(newPose[1])
             }
-            if(type == "att"){
+            else if(type == "att"){
                 informationText.text="Drawing attention to "+ frame +"."
                 focusedItem = frame
                 showInfoDisplay.start()
                 actionPublisher.prepareAttention(frame)
+                tolog = tolog+"att_"+frame
             }
-            if(type == "congrats"){
-                informationText.text="Congratulations."
-                showInfoDisplay.start()
-                actionPublisher.prepareOther("congrats")
+            else{
+                tolog = tolog + type
+                if(type == "congrats"){
+                    informationText.text="Congratulations."
+                    showInfoDisplay.start()
+                    actionPublisher.prepareOther("congrats")
+                }
+                if(type == "encour"){
+                    informationText.text="Encouragement."
+                    showInfoDisplay.start()
+                    actionPublisher.prepareOther("encour")
+                }
+                if(type == "rul"){
+                    informationText.text="Remind rules."
+                    showInfoDisplay.start()
+                    actionPublisher.prepareOther("rul")
+                }
             }
-            if(type == "encour"){
-                informationText.text="Encouragement."
-                showInfoDisplay.start()
-                actionPublisher.prepareOther("encour")
-            }
-            if(type == "rul"){
-                informationText.text="Remind rules."
-                showInfoDisplay.start()
-                actionPublisher.prepareOther("rul")
-            }
+            log(tolog)
             autoExe.start()
         }
+
     }
     RosListFloatSubscriber{
         id: lifeSubscriber
@@ -989,5 +1015,10 @@ Window {
     function stopSuggestion(){
         autoExe.stop()
         infoDisplay.opacity = 0
+    }
+    function log(string){
+        var d = new Date()
+        var log = [d.getTime()-initTime, string]
+        fileio.write(window.qlogfilename, log.join(","));
     }
 }

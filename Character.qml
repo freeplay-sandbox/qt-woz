@@ -114,6 +114,10 @@ Item {
 
         startArrow()
         actionPublisher.prepareMove(listener, dragger, name)
+        var toReturn=[]
+        toReturn.push(dragger.x)
+        toReturn.push(dragger.y)
+        return toReturn
     }
 
     function click(){
