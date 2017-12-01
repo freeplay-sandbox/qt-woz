@@ -267,6 +267,7 @@ Window {
             visible: true
             onClicked: {
                 resetSelectedItems()
+                resetGhosts()
                 sandtrayEventPublisher.text="reset"
             }
         }
@@ -456,12 +457,12 @@ Window {
                 tolog = tolog + type
                 if(type == "att")
                     tolog = tolog + "_"+frame
-                resetSelectedItems()
             }
             tolog=tolog+","+reward
             log(tolog)
             publish()
             reward = 1
+            timerResetState.restart()
         }
         function makeMove(listener, dragger, name){
             prepareMove(listener, dragger, name)
@@ -856,7 +857,6 @@ Window {
 
     function releaseRobot(item){
         robot_hand.visible = false
-        resetSelectedItems()
         for (var i = 0; i < characters.children.length; i++)
             if(characters.children[i].name === item){
                 characters.children[i].resetGhost()
@@ -969,20 +969,26 @@ Window {
         statePanel.reset()
     }
     function resetSelectedItems(){
-        for (var j = 0; j < characters.children.length; j++){
+        timerResetState.stop()
+        for (var j = 0; j < characters.children.length; j++)
             characters.children[j].selected = false
-            characters.children[j].resetGhost()
-        }
         for (var j = 0; j < targets.children.length; j++)
             targets.children[j].selected = false
     }
 
+    function resetGhosts(){
+        for (var j = 0; j < characters.children.length; j++)
+            characters.children[j].resetGhost()
+    }
+
     function addSelectedItem(name){
+        timerResetState.stop()
         stopSuggestion()
         selectedItems.push(name)
         updateFocus()
     }
     function removeSelectedItem(name){
+        timerResetState.stop()
         stopSuggestion()
         var index = selectedItems.indexOf(name)
         if (index>-1){
@@ -1005,12 +1011,14 @@ Window {
         actionPublisher.cancelAction()
         sandtrayEventPublisher.text = "sup_act_cancel"
         resetSelectedItems()
+        resetGhosts()
     }
     function waitAction(){
         stopSuggestion()
         actionPublisher.wait()
         sandtrayEventPublisher.text = "sup_act_wait"
         resetSelectedItems()
+        resetGhosts()
     }
     function stopSuggestion(){
         autoExe.stop()
@@ -1020,5 +1028,12 @@ Window {
         var d = new Date()
         var log = [d.getTime()-initTime, string]
         fileio.write(window.qlogfilename, log.join(","));
+    }
+    Timer{
+        id: timerResetState
+        interval: 2000
+        repeat: false
+        running: false
+        onTriggered: resetSelectedItems()
     }
 }
