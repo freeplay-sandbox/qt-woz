@@ -18,6 +18,7 @@ Item {
     property int epsilon: 20
     property bool selected: false
     property bool focused: false
+    visible: false
 
     ListenerObject {
         id: listener
@@ -37,6 +38,11 @@ Item {
             visible = true
         else
             visible = false
+    }
+
+    onVisibleChanged: {
+        if (visible == false)
+            selected=false
     }
 
     Lifebar {

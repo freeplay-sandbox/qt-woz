@@ -13,6 +13,8 @@ Item {
     property string image: "res/cube.svg"
     property int epsilon: 20
     property bool selected: false
+    visible: false
+
     ListenerObject {
         id: listener
         name: parent.name
@@ -20,6 +22,11 @@ Item {
         property double scale: 1.0
         property double bbScale: 1.0
         width: parent.width
+    }
+
+    onVisibleChanged: {
+        if (visible == false)
+            selected=false
     }
 
     Rectangle{

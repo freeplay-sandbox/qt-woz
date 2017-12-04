@@ -742,8 +742,13 @@ Window {
                 if(list[0] === "robotrelease")
                    releaseRobot(list[1]);
 
-                if(list[0] === "stop")
+                if(list[0] === "endround"){
                     stopSuggestion()
+                    for (var i = 0; i < characters.children.length; i++)
+                        characters.children[i].visible = false
+                        for (var i = 0; i < targets.children.length; i++)
+                            targets.children[i].visible = false
+                }
 
                 if(list[0] === "characters" && !characters.initialised){
                     for(var i=1;i<list.length;i++){
@@ -954,6 +959,12 @@ Window {
         id: lifeSubscriber
         topic: "sparc/life"
         onListChanged:{
+            for (var j = 0; j < targets.children.length; j++){
+                if (list[j] == 0)
+                    targets.children[j].visible = false
+                else
+                    targets.children[j].visible = true
+            }
             for (var j = 0; j < characters.children.length; j++){
                 characters.children[j].life = list[j+targets.children.length]
             }
