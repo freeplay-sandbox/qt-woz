@@ -27,8 +27,8 @@
         <file>res/butterfly.png</file>
         <file>res/bird.png</file>
         <file>Lifebar.qml</file>
-        <file>res/rat.png</file>
         <file>res/apple.png</file>
         <file>res/wheat.png</file>
+        <file>res/mouse.png</file>
     </qresource>
 </RCC>
