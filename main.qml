@@ -206,7 +206,7 @@ Window {
             onClicked: {
                 lightningDo.start()
                 stopSuggestion()
-                actionPublisher.executeAction()
+                actionPublisher.executeAction("doit")
             }
         }
     }
@@ -418,7 +418,7 @@ Window {
     Timer {
         id: autoExe
         interval: 2000; running: false; repeat: false
-        onTriggered:{actionPublisher.executeAction()}
+        onTriggered:{actionPublisher.executeAction("autoexe")}
     }
 
     RosActionPublisher {
@@ -443,7 +443,7 @@ Window {
             frame = name
             type = "mv"
         }
-        function executeAction(){
+        function executeAction(type){
             var tolog = "selected,"
             if(type.startsWith("mv")){
                 for (var i = 0; i < characters.children.length; i++)
@@ -458,7 +458,7 @@ Window {
                 if(type == "att")
                     tolog = tolog + "_"+frame
             }
-            tolog=tolog+","+reward
+            tolog=tolog+","+reward+","+type
             log(tolog)
             publish()
             reward = 1
@@ -466,7 +466,7 @@ Window {
         }
         function makeMove(listener, dragger, name){
             prepareMove(listener, dragger, name)
-            executeAction()
+            executeAction("select")
         }
 
         function prepareAttention(item){
@@ -485,32 +485,32 @@ Window {
             if(focusedItem === "")
                 return
             prepareAttention(focusedItem)
-            executeAction()
+            executeAction("select")
         }
 
         function congratulate() {
             prepareOther("congrats")
-            executeAction()
+            executeAction("select")
         }
 
         function encourage() {
             prepareOther("encour")
-            executeAction()
+            executeAction("select")
 
         }
 
         function remindRules() {
             prepareOther("rul")
-            executeAction()
+            executeAction("select")
 
         }
         function cancelAction(){
             reward = -1
-            executeAction()
+            executeAction("cancel")
         }
         function wait(){
             reward = 0
-            executeAction()
+            executeAction("wait")
         }
     }
 
@@ -950,6 +950,7 @@ Window {
                     actionPublisher.prepareOther("rul")
                 }
             }
+            tolog += ","+reward
             log(tolog)
             autoExe.start()
         }
