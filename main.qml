@@ -11,7 +11,7 @@ Window {
     id: window
 
     visible: true
-    //visibility: Window.FullScreen
+    visibility: Window.FullScreen
     //width: Screen.width
     //height: Screen.height
     width:800
@@ -110,12 +110,13 @@ Window {
     //Cancel button might not be needed (just send negative reward to suggestion)
     Rectangle{
         id: buttonCancel
-        width: zoo.width / 20
+        width: zoo.width / 15
         height: width
         radius: width/2
         anchors.left: zoo.left
         anchors.bottom: zoo.bottom
         anchors.bottomMargin: zoo.height / 20
+        anchors.leftMargin: zoo.width / 40
         color: "red"
         border.color: "black"
         border.width: width / 10
@@ -147,7 +148,8 @@ Window {
         anchors.left: zoo.left
         anchors.bottom: buttonCancel.top
         anchors.bottomMargin: zoo.height / 20
-        width: zoo.width / 20
+        anchors.leftMargin: buttonCancel.anchors.leftMargin
+        width: buttonCancel.width
         height: width
         radius: width/2
         z: 5
@@ -181,7 +183,8 @@ Window {
         anchors.left: zoo.left
         anchors.bottom: buttonWait.top
         anchors.bottomMargin: zoo.height / 20
-        width: zoo.width / 20
+        anchors.leftMargin: buttonCancel.anchors.leftMargin
+        width: buttonCancel.width
         height: width
         radius: width/2
         z: 5
@@ -212,13 +215,13 @@ Window {
     }
      Grid{
         id:buttonPannel
-        anchors.left: parent.left
+        anchors.left: buttonDoIt.right
         anchors.bottom: parent.bottom
         height: parent.height/10
         anchors.right: parent.right
         horizontalItemAlignment: Grid.AlignHCenter
         verticalItemAlignment: Grid.AlignVCenter
-        columns: 8
+        columns: 6
         rows: 2
         columnSpacing: width/20
         leftPadding: columnSpacing
@@ -534,7 +537,7 @@ Window {
         Image {
             id: map
             fillMode: Image.PreserveAspectFit
-            height: parent.height
+            //height: parent.height
             width: parent.width
             anchors.left: parent.left
             anchors.top: parent.top
