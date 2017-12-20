@@ -150,7 +150,41 @@ Window {
     }
 
     Rectangle{
-        id: buttonWait
+        id: buttonRemove
+        width: zoo.width / 15
+        height: width
+        radius: width/2
+        anchors.right: zoo.right
+        anchors.top: buttonCancel.top
+        anchors.rightMargin: zoo.width / 40
+        color: "red"
+        border.color: "black"
+        border.width: width / 10
+        z: 5
+        SequentialAnimation {
+            id: lightningRemove
+            PropertyAnimation{target: buttonRemove; property: "color"; to: "orange"; duration: 100}
+            PropertyAnimation{target: buttonRemove; property: "color"; to: "red"; duration: 100}
+        }
+        Label{
+            anchors.fill: parent
+            horizontalAlignment: Label.AlignHCenter
+            verticalAlignment: Label.AlignVCenter
+            font.pixelSize: 20
+            font.bold: true
+            text: "Remove"
+        }
+        MouseArea{
+            anchors.fill: parent
+            onClicked: {
+                lightningRemove.start()
+                removeAction()
+            }
+        }
+    }
+
+    Rectangle{
+        id: buttonSkip
         anchors.left: zoo.left
         anchors.bottom: buttonCancel.top
         anchors.bottomMargin: zoo.height / 20
@@ -163,9 +197,9 @@ Window {
         border.color: "black"
         border.width: width / 10
         SequentialAnimation {
-            id: lightningWait
-            PropertyAnimation{target: buttonWait; property: "color"; to: "orange"; duration: 100}
-            PropertyAnimation{target: buttonWait; property: "color"; to: "gold"; duration: 100}
+            id: lightningSkip
+            PropertyAnimation{target: buttonSkip; property: "color"; to: "orange"; duration: 100}
+            PropertyAnimation{target: buttonSkip; property: "color"; to: "gold"; duration: 100}
         }
         Label{
             anchors.fill: parent
@@ -173,13 +207,13 @@ Window {
             verticalAlignment: Label.AlignVCenter
             font.pixelSize: 20
             font.bold: true
-            text: "Wait"
+            text: "Skip"
         }
         MouseArea{
             anchors.fill: parent
             onClicked: {
-                lightningWait.start()
-                waitAction()
+                lightningSkip.start()
+                skipAction()
             }
         }
     }
@@ -187,7 +221,7 @@ Window {
     Rectangle{
         id: buttonDoIt
         anchors.left: zoo.left
-        anchors.bottom: buttonWait.top
+        anchors.bottom: buttonSkip.top
         anchors.bottomMargin: zoo.height / 20
         anchors.leftMargin: buttonCancel.anchors.leftMargin
         width: buttonCancel.width
@@ -221,14 +255,14 @@ Window {
     }
      Grid{
         id:buttonPannel
-        anchors.left: buttonDoIt.right
+        width: parent.width * 4 / 5
         anchors.bottom: parent.bottom
         height: parent.height/10
-        anchors.right: parent.right
+        anchors.horizontalCenter: parent.horizontalCenter
         horizontalItemAlignment: Grid.AlignHCenter
         verticalItemAlignment: Grid.AlignVCenter
-        columns: 6
-        rows: 2
+        columns: 5
+        rows: 1
         columnSpacing: width/20
         leftPadding: columnSpacing
         rightPadding: columnSpacing
@@ -264,7 +298,7 @@ Window {
             width: parent.cellSize
             height: parent.height/2
             text: "Select"
-            visible: true
+            visible: false
             onClicked: {
                 sparcEventPublisher.text = "select"
             }
@@ -286,6 +320,7 @@ Window {
             text: "Draw attention"
             visible: true
             onClicked: {
+                stopSuggestion()
                 if(focusedItem === ""){
                     informationText.text="Please have an item focused"
                     showInfoDisplay.start()
@@ -301,6 +336,7 @@ Window {
             text: "Congratulations"
             visible: true
             onClicked: {
+                resetIfProposing()
                 actionPublisher.congratulate()
             }
         }
@@ -310,6 +346,7 @@ Window {
             text: "Encouragement"
             visible: true
             onClicked: {
+                resetIfProposing()
                 actionPublisher.encourage()
             }
         }
@@ -319,6 +356,7 @@ Window {
             text: "Remind Rules"
             visible: true
             onClicked: {
+                resetIfProposing()
                 actionPublisher.remindRules()
             }
         }
@@ -452,14 +490,9 @@ Window {
             frame = name
             type = "mv"
         }
-        function executeAction(type){
-            var tolog = "selected,"
+        function logAction(selectionType){
+            var tolog=selectionType + ","
             if(type.startsWith("mv")){
-                for (var i = 0; i < characters.children.length; i++)
-                    if(characters.children[i].name === frame){
-                        characters.children[i].hideArrow()
-                        break
-                    }
                 tolog = tolog+"mv_"+frame+"_"+Math.round(target.x)+"_"+Math.round(target.y)
             }
             else{
@@ -467,9 +500,16 @@ Window {
                 if(type == "att")
                     tolog = tolog + "_"+frame
             }
-            tolog=tolog+","+reward+","+type
+            tolog=tolog+","+reward+","+[strings]
             log(tolog)
+        }
+
+        function executeAction(selectionType){
+            for (var i = 0; i < characters.children.length; i++)
+                characters.children[i].hideArrow()
             publish()
+            logAction(selectionType)
+            resetSelectedItems()
             reward = 1
             timerResetState.restart()
         }
@@ -517,9 +557,13 @@ Window {
             reward = -1
             executeAction("cancel")
         }
-        function wait(){
-            reward = 0
-            executeAction("wait")
+        function removeAction(){
+            reward = -10
+            executeAction("remove")
+        }
+
+        function skipAction(){
+            logAction("skip")
         }
     }
 
@@ -757,6 +801,8 @@ Window {
                         characters.children[i].visible = false
                         for (var i = 0; i < targets.children.length; i++)
                             targets.children[i].visible = false
+                        var tolog ="endround"
+                        log(tolog)
                 }
 
                 if(list[0] === "characters" && !characters.initialised){
@@ -796,6 +842,10 @@ Window {
                     var d = new Date()
                     initTime = d.getTime()
                     qlogfilename = "foodchain-data/supervisor/" + d.toISOString().split(".")[0] + ".csv"
+                }
+                if(list[0] === "start"){
+                    var tolog ="start,"+list[1]+","+list[2]
+                    log(tolog)
                 }
             }
         }
@@ -932,7 +982,7 @@ Window {
                     direction = " away from "
                 informationText.text="Move "+ type.split("_")[1] + direction + type.split("_")[2]+"."
                 showInfoDisplay.start()
-                tolog = tolog+"mv_"+frame+"_"+Math.round(newPose[0])+"_"+Math.round(newPose[1])
+                tolog = tolog+type+"_"+Math.round(newPose[0])+"_"+Math.round(newPose[1])
             }
             else if(type == "att"){
                 informationText.text="Drawing attention to "+ frame +"."
@@ -959,7 +1009,7 @@ Window {
                     actionPublisher.prepareOther("rul")
                 }
             }
-            tolog += ","+reward
+            tolog += ","+reward+","+[strings]
             log(tolog)
             autoExe.start()
         }
@@ -1034,10 +1084,17 @@ Window {
         resetSelectedItems()
         resetGhosts()
     }
-    function waitAction(){
+    function removeAction(){
         stopSuggestion()
-        actionPublisher.wait()
-        sandtrayEventPublisher.text = "sup_act_wait"
+        actionPublisher.removeAction()
+        sandtrayEventPublisher.text = "sup_act_remove"
+        resetSelectedItems()
+        resetGhosts()
+    }
+    function skipAction(){
+        stopSuggestion()
+        actionPublisher.skipAction()
+        sandtrayEventPublisher.text = "sup_act_skip"
         resetSelectedItems()
         resetGhosts()
     }
