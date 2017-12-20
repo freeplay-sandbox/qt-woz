@@ -1109,6 +1109,7 @@ Window {
     }
     function resetIfProposing(){
         if(autoExe.running){
+            actionPublisher.logAction("press")
             stopSuggestion()
             resetSelectedItems()
             resetGhosts()
