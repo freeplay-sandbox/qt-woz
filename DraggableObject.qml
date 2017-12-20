@@ -11,10 +11,10 @@ Object {
             anchors.fill: parent
             drag.target: parent
             onPressed: {
+                resetIfProposing()
                 wasSelected = character.selected
                 character.select()
                 dragged = true
-                autoExe.stop()
             }
             onReleased: {
                 if(dist(dragger, listener)<5000){

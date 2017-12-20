@@ -1044,6 +1044,14 @@ Window {
         var log = [d.getTime()-initTime, string]
         fileio.write(window.qlogfilename, log.join(","));
     }
+    function resetIfProposing(){
+        if(autoExe.running){
+            stopSuggestion()
+            resetSelectedItems()
+            resetGhosts()
+        }
+    }
+
     Timer{
         id: timerResetState
         interval: 2000

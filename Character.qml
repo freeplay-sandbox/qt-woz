@@ -127,6 +127,7 @@ Item {
     }
 
     function click(){
+        resetIfProposing()
         selected = !selected
     }
 
