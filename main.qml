@@ -34,6 +34,9 @@ Window {
         for (var i = 0; i < characters.children.length; i++)
             if(characters.children[i].name === focusedItem)
                 characters.children[i].focused = false
+        for (var i = 0; i < targets.children.length; i++)
+            if(targets.children[i].name === focusedItem)
+                targets.children[i].focused = false
 
         if(selectedItems.length>0)
             focusedItem=selectedItems[selectedItems.length-1]
@@ -43,6 +46,9 @@ Window {
         for (var i = 0; i < characters.children.length; i++)
             if(characters.children[i].name === focusedItem)
                 characters.children[i].focused = true
+        for (var i = 0; i < targets.children.length; i++)
+            if(targets.children[i].name === focusedItem)
+                targets.children[i].focused = true
     }
 
     onWidthChanged: {

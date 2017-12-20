@@ -13,6 +13,7 @@ Item {
     property string image: "res/cube.svg"
     property int epsilon: 20
     property bool selected: false
+    property bool focused: false
     visible: false
 
     ListenerObject {
@@ -58,5 +59,12 @@ Item {
         else{
             removeSelectedItem(name)
         }
+    }
+
+    onFocusedChanged: {
+        if(focused)
+            circle.border.color = "darkorange"
+        else
+            circle.border.color = "cyan"
     }
 }
