@@ -482,6 +482,8 @@ Window {
             for(var i=0;i<selectedItems.length;i++){
                 strings.push(selectedItems[i])
             }
+            if(look.selected)
+                strings.push("looking")
         }
         function prepareMove(listener, dragger, name){
             updateList()
@@ -624,6 +626,7 @@ Window {
         }
 
         Rectangle{
+            id: look
             height: parent.height /10
             width: parent.width /10
             anchors.right: parent.right
@@ -631,13 +634,29 @@ Window {
             anchors.top: parent.top
             anchors.topMargin: height/10
             color: "transparent"
+            border.color: "transparent"
+            border.width: height/20
+            property bool selected: false
+            property string source: "res/other.png"
+            MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                    parent.selected = !parent.selected
+                }
+            }
 
             Image {
-                id: look
                 anchors.fill: parent
+                anchors.margins: width/20
                 fillMode: Image.PreserveAspectFit
-                source: "res/other.png"
+                source: parent.source
                 }
+            onSelectedChanged: {
+                if(selected)
+                    border.color = "cyan"
+                else
+                    border.color = "transparent"
+            }
         }
 
         Rectangle{
@@ -972,6 +991,11 @@ Window {
             var tolog ="proposed,"
 
             for (var i = 0;i<strings.length;i++){
+                if(strings[i]==="looking"){
+                    look.selected = true
+                    continue
+                }
+
                 for (var j = 0; j < characters.children.length; j++){
                     if(characters.children[j].name === strings[i]){
                         characters.children[j].select()
@@ -1065,6 +1089,7 @@ Window {
             characters.children[j].selected = false
         for (var j = 0; j < targets.children.length; j++)
             targets.children[j].selected = false
+        look.selected = false
     }
 
     function resetGhosts(){

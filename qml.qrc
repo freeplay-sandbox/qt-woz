@@ -33,5 +33,6 @@
         <file>res/sandtray.png</file>
         <file>res/other.png</file>
         <file>res/robot.png</file>
+        <file>res/lost.png</file>
     </qresource>
 </RCC>
