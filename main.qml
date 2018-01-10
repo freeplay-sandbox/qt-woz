@@ -885,6 +885,7 @@ Window {
                 }
                 if(list[0] === "looking"){
                     look.source = "res/"+list[1]+".png"
+                    look.selected = false
                 }
             }
         }
