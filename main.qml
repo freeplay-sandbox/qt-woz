@@ -624,6 +624,23 @@ Window {
         }
 
         Rectangle{
+            height: parent.height /10
+            width: parent.width /10
+            anchors.right: parent.right
+            anchors.rightMargin: height/10
+            anchors.top: parent.top
+            anchors.topMargin: height/10
+            color: "transparent"
+
+            Image {
+                id: look
+                anchors.fill: parent
+                fillMode: Image.PreserveAspectFit
+                source: "res/other.png"
+                }
+        }
+
+        Rectangle{
             id: rewardDisplay
             anchors.fill: parent
             opacity: 0.
@@ -846,6 +863,9 @@ Window {
                 if(list[0] === "start"){
                     var tolog ="start,"+list[1]+","+list[2]
                     log(tolog)
+                }
+                if(list[0] === "looking"){
+                    look.source = "res/"+list[1]+".png"
                 }
             }
         }

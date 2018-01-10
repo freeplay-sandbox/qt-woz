@@ -30,5 +30,8 @@
         <file>res/apple.png</file>
         <file>res/wheat.png</file>
         <file>res/mouse.png</file>
+        <file>res/sandtray.png</file>
+        <file>res/other.png</file>
+        <file>res/robot.png</file>
     </qresource>
 </RCC>
