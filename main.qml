@@ -23,6 +23,7 @@ Window {
     property var initTime: 0
     property string focusedItem: ""
     property string  qlogfilename: ""
+    property bool autonomous: false
 
     Component.onCompleted: {
         var d = new Date()
@@ -875,9 +876,20 @@ Window {
                     }
                 }
                 if(list[0] === "record"){
+                    if(list[2] === "autonomous"){
+                        autonomous = true
+                        autoExe.interval = 100
+                    }
+                    else{
+                        autonomous = false
+                        autoExe.interval = 2000
+                    }
+
+
                     var d = new Date()
                     initTime = d.getTime()
-                    qlogfilename = "foodchain-data/supervisor/" + d.toISOString().split(".")[0] + ".csv"
+                    qlogfilename = "foodchain-data/condition-" +list[1]+"-"+list[2]+"/supervisor/"+ d.toISOString().split(".")[0] + ".csv"
+                    console.log(qlogfilename)
                 }
                 if(list[0] === "start"){
                     var tolog ="start,"+list[1]+","+list[2]
