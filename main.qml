@@ -888,7 +888,7 @@ Window {
 
                     var d = new Date()
                     initTime = d.getTime()
-                    qlogfilename = "foodchain-data/condition-" +list[1]+"-"+list[2]+"/supervisor/"+ d.toISOString().split(".")[0] + ".csv"
+                    qlogfilename = "foodchain-data/supervisor/condition-" +list[1]+"-"+list[2]+"/"+ d.toISOString().split(".")[0] + ".csv"
                     console.log(qlogfilename)
                 }
                 if(list[0] === "start"){
