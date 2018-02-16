@@ -468,7 +468,12 @@ Window {
     Timer {
         id: autoExe
         interval: 2000; running: false; repeat: false
-        onTriggered:{actionPublisher.executeAction("autoexe")}
+        onTriggered:{
+            if(!autonomous)
+                actionPublisher.executeAction("autoexe")
+            else
+                resetSelectedItems()
+        }
     }
 
     RosActionPublisher {
@@ -880,7 +885,6 @@ Window {
                 if(list[0] === "record"){
                     if(list[2] === "autonomous"){
                         autonomous = true
-                        autoExe.interval = 100
                     }
                     else{
                         autonomous = false
