@@ -249,8 +249,10 @@ Window {
             anchors.fill: parent
             onClicked: {
                 lightningDo.start()
-                stopSuggestion()
-                actionPublisher.executeAction("doit")
+                if(autoExe.running){
+                    stopSuggestion()
+                    actionPublisher.executeAction("doit")
+                }
             }
         }
     }
