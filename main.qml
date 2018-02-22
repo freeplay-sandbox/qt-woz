@@ -485,6 +485,7 @@ Window {
         type: "mv"
         topic: "sparc/selected_action"
         reward: 1
+        property double lastMove: -3000
         function updateList(){
             strings.splice(0,strings.length)
             for(var i=0;i<selectedItems.length;i++){
@@ -524,8 +525,12 @@ Window {
             timerResetState.restart()
         }
         function makeMove(listener, dragger, name){
-            prepareMove(listener, dragger, name)
-            executeAction("select")
+            var t = new Date().getTime()
+            if(t-lastMove>2500){
+                lastMove=t
+                prepareMove(listener, dragger, name)
+                executeAction("select")
+            }
         }
 
         function prepareAttention(item){
